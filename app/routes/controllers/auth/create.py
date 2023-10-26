@@ -23,7 +23,7 @@ async def account(token: str, account: AccountCreate):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='An error occurred while creating the account.')
-    
+
     return {
         'status': 'success',
         'message': 'Account created successfully.'

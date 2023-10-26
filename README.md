@@ -20,6 +20,7 @@ Los usuarios del sistema tienen un conjunto de funciones más limitado y están 
 
 - Realizar cotizaciones para lotes en los desarrollos.
 - Contactar a vendedores de lotes específicos.
+- Apartar lotes dando un adelanto desde el sistema (Pendiente de confirmacion)
 
 ### Desarrollos Inmobiliarios
 
@@ -51,6 +52,12 @@ Los administradores tienen la capacidad de crear cuentas especiales para emplead
 
 ### Contacto con Vendedores
 
-Cuando un usuario selecciona "Contactar a un Vendedor" en un lote, se enviará una notificación por medio de WhatsApp a un vendedor seleccionado aleatoriamente de los registros del sistema. El vendedor recibirá la notificación para verificar que ha recibido la información del usuario y luego se pondrá en contacto con el cliente.
+Cuando un usuario selecciona la opción "Contactar con un Vendedor", nuestro sistema seleccionará aleatoriamente a un vendedor de nuestra base de datos y le enviará un mensaje. Este vendedor tendrá un lapso de 5 minutos para responder y aceptar al cliente. Si el vendedor no responde dentro de ese período, la solicitud se cancelará automáticamente y se seleccionará otro vendedor al azar.
+
+Este enfoque garantiza una respuesta rápida por parte de los vendedores y evita que se queden con la solicitud sin atenderla. Además, una vez que un vendedor acepta la solicitud del cliente, se inicia un temporizador de 15 minutos. En ese tiempo, el sistema enviará un mensaje de confirmación al comprador, preguntando si el vendedor se ha puesto en contacto con él. Esta medida asegura que la interacción entre el comprador y el vendedor sea oportuna y eficaz, evitando retrasos innecesarios.
+
+Este proceso está diseñado para brindar a los usuarios una experiencia eficiente y confiable al contactar a nuestros vendedores, al tiempo que se fomenta una atención oportuna por parte de los mismos.
+
+---
 
 Este Readme proporciona una visión general del Sistema de Cotizaciones, destacando las funciones y roles clave dentro de la plataforma. Los administradores tienen un control completo sobre el sistema, lo que les permite administrar usuarios y empleados de manera efectiva, junto con la capacidad de realizar cotizaciones y contactar a vendedores a través de WhatsApp.
