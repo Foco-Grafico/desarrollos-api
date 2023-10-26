@@ -49,4 +49,8 @@ Los lotes son las unidades individuales dentro de un desarrollo y cuentan con la
 
 Los administradores tienen la capacidad de crear cuentas especiales para empleados y asignarles roles con permisos especiales o permisos directamente a la cuenta. Esto permite a las empresas incluir a sus empleados en el sistema y definir roles y responsabilidades específicas para cada uno.
 
+### Contacto con Vendedores
+
+Cuando un usuario selecciona "Contactar a un Vendedor" en un lote, se enviará una notificación por medio de WhatsApp a un vendedor seleccionado aleatoriamente de los registros del sistema. El vendedor recibirá la notificación para verificar que ha recibido la información del usuario y luego se pondrá en contacto con el cliente.
+
 Este Readme proporciona una visión general del Sistema de Cotizaciones, destacando las funciones y roles clave dentro de la plataforma. Los administradores tienen un control completo sobre el sistema, lo que les permite administrar usuarios y empleados de manera efectiva, junto con la capacidad de realizar cotizaciones y contactar a vendedores a través de WhatsApp.
