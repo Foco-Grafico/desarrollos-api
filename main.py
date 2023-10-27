@@ -5,7 +5,7 @@ from app.models.static_dir import StaticDir
 app = App(
     routers=[
         auth.router,
-        role.router
+        role.router,
         developments.router
     ],
     static_dirs=[
