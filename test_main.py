@@ -1,17 +1,20 @@
 from fastapi.testclient import TestClient
 from main import app
 from services.db import colina_db
+from app.utils import perms
 
 client = TestClient(app)
 
 class TestRole():
     def test_create_role(self):
+        id = perms.get_perm_id('test.test')
+
         response = client.post(
             '/role?token=46983916',
             json={
                 'name': 'test-role',
                 'description': 'test-role',
-                'permissions': []
+                'permissions': [id]
             }
         )
 
@@ -19,7 +22,7 @@ class TestRole():
 
         colina_db.execute(
             sql='DELETE FROM roles WHERE name = %s',
-            params=('test',)
+            params=('test-role',)
         )
 
 class TestAccount():
