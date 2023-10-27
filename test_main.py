@@ -4,6 +4,24 @@ from services.db import colina_db
 
 client = TestClient(app)
 
+class TestRole():
+    def test_create_role(self):
+        response = client.post(
+            '/role?token=46983916',
+            json={
+                'name': 'test-role',
+                'description': 'test-role',
+                'permissions': []
+            }
+        )
+
+        assert response.status_code == 200
+
+        colina_db.execute(
+            sql='DELETE FROM roles WHERE name = %s',
+            params=('test',)
+        )
+
 class TestAccount():
     def test_create_account(self):
         response = client.post(

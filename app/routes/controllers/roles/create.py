@@ -14,7 +14,7 @@ async def role(token: str, role: CreateRole):
             table='roles',
             data={
                 'name': role.name,
-                'descrption': role.description
+                'description': role.description
             }
         )
     except Exception as e:
