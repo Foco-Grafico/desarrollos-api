@@ -5,3 +5,7 @@ class ACCOUNT(Enum):
 
 class ROLE(Enum):
     CREATE = 'role.create'
+
+class BATCH(Enum):
+    CREATE = 'batch.create'
+    DELETE = 'batch.delete'
