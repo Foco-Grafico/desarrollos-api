@@ -3,7 +3,7 @@ from app.models.development import CreateDevelopment
 from fastapi import Depends, HTTPException
 from app.utils import auth, perms
 from app.enums.permissions import DEVELOPMENT
-from app.utils.files import save_file_on_api, is_image as is_image_func
+from app.utils.files import save_file_on_api, is_image
 
 def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_form)):
     perm = perms.get_perm_id(DEVELOPMENT.CREATE.value)
@@ -11,9 +11,8 @@ def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_form))
         raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
 
 
-    is_image = is_image_func(dev.logo)
 
-    if not is_image:
+    if not is_image(dev.logo):
         raise HTTPException(
             status_code=400,
             detail='The logo must be an image.'
