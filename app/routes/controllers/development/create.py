@@ -5,7 +5,7 @@ from app.utils import auth, perms
 from app.enums.permissions import DEVELOPMENT
 from app.utils.files import save_file_on_api, is_image
 
-def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_form)):
+async def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_form)):
     perm = perms.get_perm_id(DEVELOPMENT.CREATE.value)
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
