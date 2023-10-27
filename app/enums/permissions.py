@@ -8,3 +8,6 @@ class DEVELOPMENT(Enum):
 
 class BATCH(Enum):
     CREATE = 'batch.create'
+
+class PAYMENTPLAN(Enum):
+    CREATE = 'paymentplan.create'
