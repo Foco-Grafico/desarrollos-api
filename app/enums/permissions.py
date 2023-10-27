@@ -5,3 +5,6 @@ class ACCOUNT(Enum):
 
 class DEVELOPMENT(Enum):
     CREATE = 'development.create'
+
+class BATCH(Enum):
+    CREATE = 'batch.create'
