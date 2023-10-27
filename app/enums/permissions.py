@@ -8,6 +8,7 @@ class DEVELOPMENT(Enum):
 
 class BATCH(Enum):
     CREATE = 'batch.create'
+    DELETE = 'batch.delete'
 
 class PAYMENTPLAN(Enum):
     CREATE = 'paymentplan.create'

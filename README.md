@@ -43,7 +43,6 @@ Los lotes son las unidades individuales dentro de un desarrollo y cuentan con la
 - Entorno: Descripción del entorno que rodea al lote.
 - Planes de Pago: Detalles sobre los planes de pago disponibles.
 - Precio: El costo del lote.
-- Descripción de la Casa: Información detallada sobre la construcción en el lote.
 - Contactar a un Vendedor: Los usuarios pueden utilizar esta función para contactar a un vendedor de lote seleccionado aleatoriamente.
 
 ### Gestión de Cuentas Especiales para Empleados
