@@ -25,7 +25,23 @@ class TestRole():
             params=('test-role',)
         )
 
-class TestAccount():
+class TestCreteDevelopment():
+    def test_create_development(self):
+        response_code = 200
+
+        assert response_code == 200
+
+    def test_create_development_no_token(self):
+        response_code = 422
+
+        assert response_code == 422
+
+    def test_create_development_invalid_token(self):
+        response_code = 403
+
+        assert response_code == 403
+
+class TestCreateAccount():
     def test_create_account(self):
         response = client.post(
             '/auth/account?token=46983916',

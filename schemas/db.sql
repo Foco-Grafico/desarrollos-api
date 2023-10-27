@@ -59,3 +59,18 @@ CREATE TABLE user_roles (
     CONSTRAINT fk_user_rol_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_rol_rol FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
 );
+
+CREATE TABLE developments (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    logo_url VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(25) NOT NULL,
+    contact_email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY name (name)
+);
