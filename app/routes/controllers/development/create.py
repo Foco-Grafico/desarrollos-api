@@ -10,8 +10,6 @@ def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_form))
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
 
-
-
     if not is_image(dev.logo):
         raise HTTPException(
             status_code=400,
