@@ -4,7 +4,7 @@ from services.db import colina_db
 
 client = TestClient(app)
 
-class TestAccount():
+class TestCreateAccount():
     def test_create_account(self):
         response = client.post(
             '/auth/account?token=46983916',
