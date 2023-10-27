@@ -8,7 +8,7 @@ def is_image(file: UploadFile):
 
     extension_file = file.filename.split('.')[-1]
 
-    if extension_file not in ['png', 'jpg', 'jpeg', 'svg', 'webp']:
+    if extension_file.lower() not in ['png', 'jpg', 'jpeg', 'svg', 'webp']:
         return False
 
     return True
