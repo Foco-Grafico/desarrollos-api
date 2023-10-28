@@ -10,5 +10,9 @@ class BATCH(Enum):
     CREATE = 'batch.create'
     DELETE = 'batch.delete'
 
-class PAYMENTPLAN(Enum):
+class PAYMENT_PLAN(Enum):
     CREATE = 'paymentplan.create'
+
+class ROLE(Enum):
+    CREATE = 'role.create'
+    DELETE = 'role.delete'
