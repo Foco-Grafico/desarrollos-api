@@ -1,10 +1,11 @@
 from services.fastapi import App
-from app.routes.routers import auth, role
+from app.routes.routers import auth, role, seller
 
 app = App(
     routers=[
         auth.router,
-        role.router
+        role.router,
+        seller.router
     ]
 ).get_app()
 
