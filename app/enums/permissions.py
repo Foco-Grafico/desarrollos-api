@@ -5,7 +5,7 @@ class ACCOUNT(Enum):
 
 class ROLE(Enum):
     CREATE = 'role.create'
-
+    UPDATE = 'role.update'
 class SELLER(Enum):
     CREATE = 'seller.create'
     UPDATE = 'seller.update'
