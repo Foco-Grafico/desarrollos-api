@@ -17,3 +17,9 @@ class PAYMENT_PLAN(Enum):
 class ROLE(Enum):
     CREATE = 'role.create'
     DELETE = 'role.delete'
+    UPDATE = 'role.update'
+    
+class SELLER(Enum):
+    CREATE = 'seller.create'
+    UPDATE = 'seller.update'
+    

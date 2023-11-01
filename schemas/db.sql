@@ -1,4 +1,4 @@
--- Active: 1698710706542@@127.0.0.1@3306
+-- Active: 1698255626383@@soportefoco.com@3306@colinaperla
 
 DROP DATABASE IF EXISTS colinaperla;
 
@@ -60,6 +60,17 @@ CREATE TABLE user_roles (
     CONSTRAINT fk_user_rol_rol FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS sellers (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    enterprise VARCHAR(255) NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY email (email)
+);
+ 
 CREATE TABLE developments (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
