@@ -1,3 +1,4 @@
+from ast import Delete
 from enum import Enum
 
 class ACCOUNT(Enum):
@@ -22,4 +23,5 @@ class ROLE(Enum):
 class SELLER(Enum):
     CREATE = 'seller.create'
     UPDATE = 'seller.update'
+    DELETE = 'seller.delete'
     
