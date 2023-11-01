@@ -1,10 +1,11 @@
 from pydantic import BaseModel
 
 class CreateSeller(BaseModel):
-    name: str
+    first_name: str
     last_name: str
     email: str
-    phone: str
+    phone_number: str
+    enterprise: str | None = None
 
 
 

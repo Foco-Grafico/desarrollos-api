@@ -21,7 +21,9 @@ async def role(token: str, role: CreateRole):
         print(e)
         raise HTTPException(status_code=500, detail='An error occurred while creating the account.')
 
-    for perm_id in role.permissions:
+    for perm_name in role.permissions:
+        perm_id = perms.get_perm_id(perm_name)
+
         try:
             colina_db.insert(
                 table='rol_perms',

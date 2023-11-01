@@ -8,19 +8,22 @@ async def seller(token: str, seller: CreateSeller):
     perm = perms.get_perm_id(SELLER.CREATE.value)
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
+    
     try:
         colina_db.insert(
             table='sellers',
             data={
-                'name': seller.name,
+                'name': seller.first_name,
                 'last_name': seller.last_name,
                 'email': seller.email,
-                'phone': seller.phone,
+                'phone': seller.phone_number,
+                'enterprise': seller.enterprise,
             }
         )
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='An error occurred while creating the seller.')
+    
     return {
         'status': 'success',
         'message': 'Seller created successfully.',

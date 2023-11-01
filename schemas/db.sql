@@ -1,4 +1,4 @@
--- Active: 1695837029838@@127.0.0.1@3306@colinaperla
+-- Active: 1698255626383@@soportefoco.com@3306@colinaperla
 
 DROP DATABASE IF EXISTS colinaperla;
 
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS sellers (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
+    enterprise VARCHAR(255) NULL,
     PRIMARY KEY (id),
     UNIQUE KEY email (email)
 );
-
