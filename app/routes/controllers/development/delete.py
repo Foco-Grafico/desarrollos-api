@@ -20,7 +20,7 @@ async def delete_dev(token: str,development_id: int):
     if not development_db:
         raise HTTPException(status_code=404, detail="Development not found")
 
-    try: 
+    try:
         colina_db.execute(
             sql="DELETE FROM developments WHERE id = %s",
             params=(development_id,),
@@ -28,8 +28,8 @@ async def delete_dev(token: str,development_id: int):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='Development could not be deleted')
-    
-    files.delete_file(development_db['logo_url'])    
+
+    files.delete_file(development_db['logo_url'])
 
     return {
         'message': 'Development deleted successfully.'
