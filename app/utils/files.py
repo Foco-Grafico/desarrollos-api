@@ -1,6 +1,10 @@
 from fastapi import UploadFile
-from os import path as os_path, sep as os_sep
+from os import path as os_path, sep as os_sep, remove as os_remove
 from uuid import uuid4 as v4
+
+def delete_file(path: str):
+    if os_path.exists(path):
+        os_remove(path)
 
 def is_image(file: UploadFile):
     if not file.filename:
