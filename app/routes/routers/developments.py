@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from app.routes.controllers.development import create
+from app.routes.controllers.development import create, delete
+
 
 router = APIRouter(
     prefix='/development',
@@ -7,3 +8,4 @@ router = APIRouter(
 )
 
 router.post('')(create.dev)
+router.delete("")(delete.delete_dev)
