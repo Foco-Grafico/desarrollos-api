@@ -20,6 +20,16 @@ async def delete_dev(token: str,development_id: int):
     if not development_db:
         raise HTTPException(status_code=404, detail="Development not found")
 
+    batch_assets = colina_db.fetch_all(
+        sql='''
+            SELECT ba.*
+            FROM batch_assets ba
+            LEFT JOIN batches b ON b.development_id = %s
+            WHERE ba.batch_id = b.id;
+        ''',
+        params=(development_id,)
+    )
+
     try:
         colina_db.execute(
             sql="DELETE FROM developments WHERE id = %s",
@@ -30,6 +40,9 @@ async def delete_dev(token: str,development_id: int):
         raise HTTPException(status_code=500, detail='Development could not be deleted')
 
     files.delete_file(development_db['logo_url'])
+
+    for file_content in batch_assets:
+        files.delete_file(file_content['asset_url'])
 
     return {
         'message': 'Development deleted successfully.'
