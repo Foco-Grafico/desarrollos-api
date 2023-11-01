@@ -4,6 +4,7 @@ from services.db import colina_db
 from app.utils.perms import is_have_perm
 from app.enums.permissions import BATCH
 from app.utils.files import save_file_on_api, is_image
+from app.routes.controllers.batch.assign import assign_batch_asset
 
 async def batch(token: str, batch: CreateBatch = Depends(CreateBatch.as_form)):
     if not is_have_perm(token, BATCH.CREATE.value):
@@ -46,12 +47,9 @@ async def batch(token: str, batch: CreateBatch = Depends(CreateBatch.as_form)):
         )
 
         try:
-            colina_db.insert(
-                table='batch_assets',
-                data={
-                    'asset_url': file_url,
-                    'batch_id': batch_id
-                }
+            await assign_batch_asset(
+                asset_url=file_url,
+                batch_id=batch_id
             )
 
             assets_log[file.filename] = 'Asset created successfully'
