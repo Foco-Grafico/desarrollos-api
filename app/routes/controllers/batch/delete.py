@@ -1,6 +1,6 @@
 from services.db import colina_db
 from fastapi import HTTPException
-from app.utils import auth, perms
+from app.utils import auth, perms, files
 from app.enums.permissions import BATCH
 
 async def batch(token: str, id: int):
@@ -16,6 +16,11 @@ async def batch(token: str, id: int):
     if not batch_db:
         raise HTTPException(status_code=404, detail="Batch not found")
     
+    batch_files = colina_db.fetch_all(
+        sql="SELECT * FROM batch_assets WHERE batch_id = %s",
+        params=(id,)
+    )
+
     try:
         colina_db.execute(
             sql="DELETE FROM batches WHERE id = %s",
@@ -24,6 +29,9 @@ async def batch(token: str, id: int):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='An error occurred while deleting the batch.')
+
+    for file_content in batch_files:
+        files.delete_file(file_content['asset_url'])
 
     return {
         "message": "Batch deleted"

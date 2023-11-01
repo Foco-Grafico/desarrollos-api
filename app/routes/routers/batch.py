@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.routes.controllers.batch import create, delete
+from app.routes.controllers.batch import create, delete, assign
 
 router = APIRouter(
     prefix='/batch',
@@ -8,4 +8,6 @@ router = APIRouter(
 
 router.post('')(create.batch)
 router.delete('')(delete.batch)
+router.post('/assign/asset')(assign.assign_batch_asset)
+router.post('/assign/payment-plan')(assign.assign_batch_payment_plan)
 
