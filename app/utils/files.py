@@ -1,5 +1,5 @@
 from fastapi import UploadFile
-from os import path as os_path
+from os import path as os_path, sep as os_sep
 from uuid import uuid4 as v4
 
 def is_image(file: UploadFile):
@@ -9,6 +9,12 @@ def is_image(file: UploadFile):
     extension_file = file.filename.split('.')[-1]
 
     if extension_file.lower() not in ['png', 'jpg', 'jpeg', 'svg', 'webp']:
+        return False
+    
+    if not file.content_type:
+        return False
+
+    if not file.content_type.lower().startswith('image'):
         return False
 
     return True
@@ -20,4 +26,4 @@ def save_file_on_api(file: UploadFile, path: str):
         buffer.write(file.file.read())
         buffer.close()
 
-    return constructed_path.replace('\\', '/')
+    return constructed_path.replace(os_sep, '/')

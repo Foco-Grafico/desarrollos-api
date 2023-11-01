@@ -107,11 +107,12 @@ CREATE TABLE batch_assets (
     CONSTRAINT fk_batch_asset_batch FOREIGN KEY (batch_id) REFERENCES batches (id) ON DELETE CASCADE
 );
 
-CREATE TABLE batch_payment_methods (
+CREATE TABLE batch_payment_plans (
     id INT NOT NULL AUTO_INCREMENT,
     batch_id INT NOT NULL,
     payment_plan_id INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_batch_payment_batch FOREIGN KEY (batch_id) REFERENCES batches (id) ON DELETE CASCADE,
-    CONSTRAINT fk_batch_payment_payment FOREIGN KEY (payment_plan_id) REFERENCES payment_plans (id) ON DELETE CASCADE
+    CONSTRAINT fk_batch_payment_payment FOREIGN KEY (payment_plan_id) REFERENCES payment_plans (id) ON DELETE CASCADE,
+    UNIQUE KEY batch_payment (batch_id, payment_plan_id)
 );
