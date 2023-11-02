@@ -3,7 +3,6 @@ from main import app
 from services.db import colina_db
 from app.routes.controllers.development.delete import delete_dev
 import pytest
-from app.enums.statuses import STATUS_DEV
 
 client = TestClient(app)
 
