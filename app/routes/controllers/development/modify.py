@@ -23,8 +23,19 @@ async def modify_dev(
         raise HTTPException(status_code=404, detail="Development not found")
 
 
+    logo_url = development_db['logo_url']
+    if dev.logo is not None:
+        if not is_image(dev.logo):
+            raise HTTPException(status_code=400, detail="Logo must be an image")
+
+        logo_url = save_file_on_api(
+            file=dev.logo,
+            path=development_db['logo_url'],
+            exact_path=True
+        )
+
     try:
-        data = colina_db.update(
+        colina_db.update(
             table= 'developments',
             where= f'id = {development_id}',
             data= {
@@ -34,7 +45,7 @@ async def modify_dev(
                 'city': dev.city if dev.city is not None else development_db['city'],
                 'state': dev.state if dev.state is not None else development_db['state'],
                 'country': dev.country if dev.country is not None else development_db['country'],
-                'logo_url': dev.logo if dev.logo is not None else  development_db['logo_url'],
+                'logo_url': logo_url,
                 'contact_number': dev.contact_number if dev.contact_number is not None else development_db['contact_number'],
                 'contact_email': dev.contact_email if dev.contact_email is not None else development_db['contact_email']
             },
@@ -46,6 +57,5 @@ async def modify_dev(
         raise HTTPException(status_code=500, detail='Development could not be updated')
 
     return {
-        'message': 'Development updated successfully.',
-        "data": data
+        'message': 'Development updated successfully.'
     }
