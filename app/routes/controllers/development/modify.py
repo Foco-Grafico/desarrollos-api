@@ -4,11 +4,13 @@ from app.utils import auth, perms
 from app.enums.permissions import DEVELOPMENT
 from app.models.development import EditDevelopment
 from app.utils.files import save_file_on_api, is_image
+from app.enums.statuses import STATUS_DEV
 
 async def modify_dev(
     token: str,
     development_id: int,
-    dev: EditDevelopment = Depends(EditDevelopment.as_form)
+    status: STATUS_DEV | None = None,
+    dev: EditDevelopment = Depends(EditDevelopment.as_form),
 ):
     perm = perms.get_perm_id(DEVELOPMENT.MODIFY.value)
     if not auth.verify_perm(token, perm):
@@ -48,7 +50,8 @@ async def modify_dev(
                 'country': dev.country if dev.country is not None else development_db['country'],
                 'logo_url': logo_url,
                 'contact_number': dev.contact_number if dev.contact_number is not None else development_db['contact_number'],
-                'contact_email': dev.contact_email if dev.contact_email is not None else development_db['contact_email']
+                'contact_email': dev.contact_email if dev.contact_email is not None else development_db['contact_email'],
+                'status': status.value if status is not None else development_db['status'],
             },
 
         )

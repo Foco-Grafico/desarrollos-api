@@ -1,4 +1,4 @@
--- Active: 1695837029838@@127.0.0.1@3306@colinaperla
+-- Active: 1698255626383@@soportefoco.com@3306@colinaperla
 
 DROP DATABASE IF EXISTS colinaperla;
 
@@ -70,11 +70,26 @@ CREATE TABLE IF NOT EXISTS sellers (
     PRIMARY KEY (id),
     UNIQUE KEY email (email)
 );
- 
+
+CREATE TABLE dev_status (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY name (name)
+);
+
+INSERT INTO dev_status (name) VALUES
+    ('En desarrollo'),
+    ('En preventa'),
+    ('En construcción'),
+    ('Entregado'),
+    ('Oculto'),
+    ('Disponible');
+
 CREATE TABLE developments (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
     address VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255) NOT NULL,
@@ -82,8 +97,10 @@ CREATE TABLE developments (
     logo_url VARCHAR(255) NOT NULL,
     contact_number VARCHAR(25) NOT NULL,
     contact_email VARCHAR(255) NOT NULL,
+    status INT NOT NULL DEFAULT 6,
     PRIMARY KEY (id),
-    UNIQUE KEY name (name)
+    UNIQUE KEY name (name),
+    CONSTRAINT fk_dev_status FOREIGN KEY (status) REFERENCES dev_status (id)
 );
 
 CREATE TABLE payment_plans (
@@ -97,6 +114,18 @@ CREATE TABLE payment_plans (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE batch_status(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY name (name)
+);
+
+INSERT INTO batch_status (name) VALUES
+    ('Disponible'),
+    ('Vendido'),
+    ('Reservado');
+
 CREATE TABLE batches (
     id INT NOT NULL AUTO_INCREMENT,
     area DECIMAL(10,2) NOT NULL,
@@ -106,8 +135,10 @@ CREATE TABLE batches (
     coords VARCHAR(255) NOT NULL,
     amenities VARCHAR(255) NOT NULL,
     development_id INT NOT NULL,
+    status INT NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
-    CONSTRAINT fk_batch_dev FOREIGN KEY (development_id) REFERENCES developments (id) ON DELETE CASCADE
+    CONSTRAINT fk_batch_dev FOREIGN KEY (development_id) REFERENCES developments (id) ON DELETE CASCADE,
+    CONSTRAINT fk_batch_status FOREIGN KEY (status) REFERENCES batch_status (id)
 );
 
 CREATE TABLE batch_assets (

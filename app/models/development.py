@@ -17,14 +17,14 @@ class CreateDevelopment(BaseModel):
     def as_form(
         cls,
         name: Annotated[str, Form(...)],
-        description: Annotated[str, Form(...)],
         address: Annotated[str, Form(...)],
         city: Annotated[str, Form(...)],
         state: Annotated[str, Form(...)],
         country: Annotated[str, Form(...)],
         logo: UploadFile,
         contact_number: Annotated[str, Form(...)],
-        contact_email: Annotated[str, Form(...)]
+        contact_email: Annotated[str, Form(...)],
+        description: Annotated[str | None, Form(...)] = None
     ):
         return cls(
             name=name,
