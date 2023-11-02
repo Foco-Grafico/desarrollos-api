@@ -34,3 +34,36 @@ class CreateBatch(BaseModel):
             assets=assets,
             development_id=development_id
         )
+
+class EditBatch(BaseModel):
+    area: float | None = None
+    perimeter: float | None = None
+    longitude: float | None = None
+    coords: str | None = None
+    amenities: str | None = None
+    price: float | None = None
+    assets: list[UploadFile] | None = None
+    development_id: int | None = None
+
+    @classmethod
+    def as_form(
+        cls,
+        area: Annotated[float | None, Form(...)] = None,
+        perimeter: Annotated[float | None, Form(...)] = None,
+        longitude: Annotated[float | None, Form(...)] = None,
+        coords: Annotated[str | None, Form(...)] = None,
+        amenities: Annotated[str | None, Form(...)] = None,
+        price: Annotated[float | None, Form(...)] = None,
+        assets: list[UploadFile] | None = None,
+        development_id: Annotated[int | None, Form(...)] = None
+    ):
+        return cls(
+            area=area,
+            perimeter=perimeter,
+            longitude=longitude,
+            coords=coords,
+            amenities=amenities,
+            price=price,
+            assets=assets,
+            development_id=development_id
+        )

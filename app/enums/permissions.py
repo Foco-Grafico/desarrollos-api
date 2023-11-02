@@ -6,10 +6,12 @@ class ACCOUNT(Enum):
 class DEVELOPMENT(Enum):
     CREATE = 'development.create'
     DELETE = 'development.delete'
+    MODIFY = 'development.modify'
 
 class BATCH(Enum):
     CREATE = 'batch.create'
     DELETE = 'batch.delete'
+    MODIFY = 'batch.modify'
 
 class PAYMENT_PLAN(Enum):
     CREATE = 'paymentplan.create'

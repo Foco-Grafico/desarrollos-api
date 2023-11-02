@@ -1,4 +1,3 @@
-from email import message
 from fastapi import HTTPException
 from pytest import param
 from services.db import colina_db
