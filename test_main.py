@@ -398,3 +398,62 @@ class TestBatch():
         assert res.status_code == 200
 
         await delete_dev(development_id=dev_id, token='46983916')
+
+    @pytest.mark.asyncio
+    async def test_batch_assign_payment_plant(self):
+        with open('test_assets/foco.png', 'rb') as f:
+            files = {'logo': ('foco.png', f)}
+
+            dev_id = client.post(
+                '/development?token=46983916',
+                data={
+                        'name': 'test',
+                        'description': 'test',
+                        'address': 'test',
+                        'city': 'test',
+                        'state': 'test',
+                        'country': 'test',
+                        'contact_number': 'test',
+                        'contact_email': 'dsadsa'
+                },
+                files=files
+            ).json()['dev_id']
+
+        with open('test_assets/foco.png', 'rb') as png, open('test_assets/foco.svg', 'rb') as svg:
+            files = [
+                ('assets', ('foco.png', png)),
+                ('assets', ('foco.svg', svg))
+            ]
+
+            batch_id = client.post(
+                '/batch?token=46983916',
+                files=files,
+                data={
+                    'area': '90',
+                    'perimeter': '90',
+                    'longitude': '90',
+                    'coords': 'cooooooords',
+                    'amenities': 'amenities',
+                    'price': '90',
+                    'development_id': dev_id
+                }
+            ).json()['batch_id']
+
+        plan_id = client.post(
+            '/payment?token=46983916',
+            json={
+                'price': 1,
+                'months_to_pay': 3,
+                'annuity': 1,
+                'pay_per_month': 5,
+                'interest_rate': 90,
+                'payment_method': 'cola'
+            }
+        ).json()['plan_id']
+        
+        res = client.post(
+            f'/batch/assign/payment-plan?token=46983916&batch_id={batch_id}',
+            json={
+                'asset_url': 'https://blogs.21rs.es/corazones/files/2015/06/si.png'
+            }
+        )
