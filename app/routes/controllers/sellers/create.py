@@ -10,7 +10,7 @@ async def seller(token: str, seller: CreateSeller):
         raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
     
     try:
-        colina_db.insert(
+        seller_id = colina_db.insert(
             table='sellers',
             data={
                 'name': seller.first_name,
@@ -25,6 +25,7 @@ async def seller(token: str, seller: CreateSeller):
         raise HTTPException(status_code=500, detail='An error occurred while creating the seller.')
     
     return {
+        'seller_id': seller_id,
         'status': 'success',
         'message': 'Seller created successfully.',
     }
