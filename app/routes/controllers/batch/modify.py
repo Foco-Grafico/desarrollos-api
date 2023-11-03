@@ -61,7 +61,7 @@ async def modify_batch(
         raise HTTPException(status_code=404, detail="Batch not found")
     
     try:
-        batch_data = colina_db.update(
+        colina_db.update(
             table= 'batches',
             where= f'id = {batch_id}',
             data= {
@@ -71,7 +71,6 @@ async def modify_batch(
                 'coords': batch.coords if batch.coords is not None else batch_db['coords'],
                 'amenities': batch.amenities if batch.amenities is not None else batch_db['amenities'],
                 'price': batch.price if batch.price is not None else batch_db['price'],
-                'assets': batch.assets if batch.assets is not None else batch_db['assets'],
                 'development_id': batch.development_id if batch.development_id is not None else batch_db['development_id'],
                 'status': status.value if status is not None else batch_db['status'],
             },
@@ -80,6 +79,5 @@ async def modify_batch(
         print(e)
         raise HTTPException(status_code=500, detail='Batch could not be updated')
     return {
-        'message': 'Batch updated successfully.',
-        "data": batch_data
+        'message': 'Batch updated successfully.'
     }

@@ -42,7 +42,6 @@ class EditBatch(BaseModel):
     coords: str | None = None
     amenities: str | None = None
     price: float | None = None
-    assets: list[UploadFile] | None = None
     development_id: int | None = None
 
     @classmethod
@@ -54,7 +53,6 @@ class EditBatch(BaseModel):
         coords: Annotated[str | None, Form(...)] = None,
         amenities: Annotated[str | None, Form(...)] = None,
         price: Annotated[float | None, Form(...)] = None,
-        assets: list[UploadFile] | None = None,
         development_id: Annotated[int | None, Form(...)] = None
     ):
         return cls(
@@ -64,6 +62,5 @@ class EditBatch(BaseModel):
             coords=coords,
             amenities=amenities,
             price=price,
-            assets=assets,
             development_id=development_id
         )

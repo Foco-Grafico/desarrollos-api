@@ -2,7 +2,6 @@ from fastapi.testclient import TestClient
 from main import app
 from services.db import colina_db
 from app.routes.controllers.development.delete import delete_dev
-from app.routes.controllers.batch.delete import batch
 import pytest
 
 client = TestClient(app)
@@ -462,22 +461,46 @@ class TestBatch():
 
     @pytest.mark.asyncio
     async def test_modify_batch(self):
-        batch_id = client.post(
-            '/batch/{batch_id}?token=46983916',
-            json={
-                'area': '90',
-                'perimeter': '90',
-                'longitude': '90',
-                'coords': 'cooooooords',
-                'amenities': 'amenities',
-                'price': '90',
-                'development_id': 1
-            }
-        ).json()['batch_id']
+        with open('test_assets/foco.png', 'rb') as f:
+            files = {'logo': ('foco.png', f)}
+
+            dev_id = client.post(
+                '/development?token=46983916',
+                data={
+                        'name': 'test',
+                        'description': 'test',
+                        'address': 'test',
+                        'city': 'test',
+                        'state': 'test',
+                        'country': 'test',
+                        'contact_number': 'test',
+                        'contact_email': 'dsadsa'
+                },
+                files=files
+            ).json()['dev_id']
+
+        with open('test_assets/foco.png', 'rb') as png, open('test_assets/foco.svg', 'rb') as svg:
+            files = [
+                ('assets', ('foco.png', png)),
+                ('assets', ('foco.svg', svg))
+            ]
+
+            batch_id = client.post(
+                '/batch?token=46983916',
+                files=files,
+                data={
+                    'area': '90',
+                    'perimeter': '90',
+                    'longitude': '90',
+                    'coords': 'cooooooords',
+                    'amenities': 'amenities',
+                    'price': '90',
+                    'development_id': dev_id
+                }
+            ).json()['batch_id']
 
         res = client.put(
-            #/batch/assign/payment-plan?token=46983916&batch_id={batch_id}&plan_id={plan_id}
-            f'/batch/{batch_id}?token=46983916&batch_id={batch_id}&status=1',
+            f'/batch/{batch_id}?token=46983916&batch_id={batch_id}',
             json={
                 'area': '9',
                 'perimeter': '9',
@@ -485,11 +508,12 @@ class TestBatch():
                 'coords': 'coooords',
                 'amenities': 'amenies',
                 'price': '0',
-                'development_id': 1
             }
         )
+        
         assert res.status_code == 200
-        await delete_dev(id=dev_id, token='46983916')
+
+        await delete_dev(development_id=dev_id, token='46983916')
         
 
 
