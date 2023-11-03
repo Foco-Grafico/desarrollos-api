@@ -5,7 +5,11 @@ from app.enums.permissions import BATCH
 from app.models.batch import EditBatch
 from app.enums.statuses import STATUS_BATCH
 
-async def modify_batch_asset(asset_id: int, file: UploadFile):
+async def modify_batch_asset(token: str, asset_id: int, file: UploadFile):
+    perm = perms.get_perm_id(BATCH.MODIFY.value)
+    if not auth.verify_perm(token, perm):
+        raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
+
     file_db = colina_db.fetch_one(
         sql='SELECT * FROM batch_assets WHERE id = %s',
         params=(asset_id,)
