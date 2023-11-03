@@ -450,10 +450,11 @@ class TestBatch():
                 'payment_method': 'cola'
             }
         ).json()['plan_id']
-        
+
         res = client.post(
-            f'/batch/assign/payment-plan?token=46983916&batch_id={batch_id}',
-            json={
-                'asset_url': 'https://blogs.21rs.es/corazones/files/2015/06/si.png'
-            }
+            f'/batch/assign/payment-plan?token=46983916&batch_id={batch_id}&plan_id={plan_id}',
         )
+
+        assert res.status_code == 200
+
+        await delete_dev(development_id=dev_id, token='46983916')
