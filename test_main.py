@@ -189,7 +189,7 @@ class TestDevelopment():
 
         await delete_dev(development_id=dev_id, token='46983916')
 
-class TestCreateAccount():
+class TestAuth():
     def test_create_account(self):
         response = client.post(
             '/auth/account?token=46983916',
@@ -668,8 +668,44 @@ class TestBatch():
         assert res.status_code == 200
         await delete_dev(development_id=dev_id, token='46983916')
 
+class TestSeller():
+    def test_create_seller(self):
+        res = client.post(
+            '/seller?token=46983916',
+            json={
+                "first_name": "string",
+                "last_name": "string",
+                "email": "string",
+                "phone_number": "string",
+                "enterprise": "string"
+            }
+        )
 
+        assert res.status_code == 200
 
+        seller_id = res.json()['seller_id']
 
+        colina_db.execute(
+            sql='DELETE FROM sellers WHERE id = %s',
+            params=(seller_id,)
+        )
+
+    def test_delete_seller(self):
+        seller_id = client.post(
+            '/seller?token=46983916',
+            json={
+                "first_name": "string",
+                "last_name": "string",
+                "email": "string",
+                "phone_number": "string",
+                "enterprise": "string"
+            }
+        ).json()['seller_id']
+
+        res = client.delete(
+            f'/seller?token=46983916&seller_id={seller_id}'
+        )
+
+        assert res.status_code == 200
 
 
