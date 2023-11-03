@@ -37,3 +37,30 @@ async def batch(token: str, id: int):
         "message": "Batch deleted"
     }
 
+async def delete_image_from_batch(token: str, asset_id: int):
+    perm = perms.get_perm_id(BATCH.MODIFY.value)
+    if not auth.verify_perm(token, perm):
+        raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
+
+    asset_db = colina_db.fetch_one(
+        sql="SELECT * FROM batch_assets WHERE id = %s",
+        params=(asset_id,)
+    )
+
+    if not asset_db:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    
+    try:
+        colina_db.execute(
+            sql="DELETE FROM batch_assets WHERE id = %s",
+            params=(asset_id,)
+        )
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail='An error occurred while deleting the asset.')
+
+    files.delete_file(asset_db['asset_url'])
+
+    return {
+        "message": "Asset deleted"
+    }

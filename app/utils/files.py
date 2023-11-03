@@ -23,8 +23,17 @@ def is_image(file: UploadFile):
 
     return True
 
-def save_file_on_api(file: UploadFile, path: str):
-    constructed_path = os_path.join(path, f'{v4()}-{file.filename}')
+def save_file_on_api(file: UploadFile, path: str, exact_path: bool = False):
+    if not file.filename:
+        raise Exception('File name is required')
+    
+
+    if exact_path:
+        delete_file(path)
+        extension_file = file.filename.split('.')[-1]
+        constructed_path = path.split('.')[0] + '.' + extension_file
+    else:
+        constructed_path = os_path.join(path, f'{v4()}-{file.filename}')
 
     with open(constructed_path, 'wb') as buffer:
         buffer.write(file.file.read())

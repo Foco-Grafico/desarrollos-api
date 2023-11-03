@@ -13,7 +13,7 @@ async def payment_plan(
         raise HTTPException(status_code=403, detail="You do not have permission to perform this action.")
 
     try:
-        colina_db.insert(
+        plan_id = colina_db.insert(
             table='payment_plans',
             data={
                 'price': payment_plan.price,
@@ -29,5 +29,6 @@ async def payment_plan(
         raise HTTPException(status_code=500, detail="An error occurred while creating payment plan")
     
     return {
+        "plan_id": plan_id,
         "message": "Payment plan created successfully"
     }

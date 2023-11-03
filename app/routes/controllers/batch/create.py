@@ -48,6 +48,7 @@ async def batch(token: str, batch: CreateBatch = Depends(CreateBatch.as_form)):
 
         try:
             await assign_batch_asset(
+                token=token,
                 asset_url=file_url,
                 batch_id=batch_id
             )
@@ -58,6 +59,7 @@ async def batch(token: str, batch: CreateBatch = Depends(CreateBatch.as_form)):
             assets_log[file.filename] = 'An error occurred while saving this asset'
 
     return {
+        'batch_id': batch_id,
         'message': 'Batch created successfully',
         'assets_log': assets_log
     }

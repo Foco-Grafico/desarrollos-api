@@ -38,6 +38,7 @@ async def role(token: str, role: CreateRole):
 
 
     return {
+        'role_id': role_id,
         'status': 'success',
         'message': 'Role created successfully.'
     }

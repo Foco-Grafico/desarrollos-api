@@ -22,7 +22,7 @@ async def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_
     )
 
     try:
-        colina_db.insert(
+        dev_id = colina_db.insert(
             table='developments',
             data={
                 'name': dev.name,
@@ -44,5 +44,6 @@ async def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_
         )
 
     return {
+        'dev_id': dev_id,
         'message': 'Development created successfully.'
     }
