@@ -48,6 +48,7 @@ async def batch(token: str, batch: CreateBatch = Depends(CreateBatch.as_form)):
 
         try:
             await assign_batch_asset(
+                token=token,
                 asset_url=file_url,
                 batch_id=batch_id
             )
