@@ -1,7 +1,8 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Body
 from services.db import colina_db
+from typing import Annotated
 
-async def assign_batch_asset(asset_url: str, batch_id: int):
+async def assign_batch_asset(asset_url: Annotated[str, Body(..., embed=True)], batch_id: int):
     try:
         colina_db.insert(
             table='batch_assets',

@@ -58,6 +58,7 @@ async def batch(token: str, batch: CreateBatch = Depends(CreateBatch.as_form)):
             assets_log[file.filename] = 'An error occurred while saving this asset'
 
     return {
+        'batch_id': batch_id,
         'message': 'Batch created successfully',
         'assets_log': assets_log
     }
