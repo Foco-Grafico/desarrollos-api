@@ -2,6 +2,7 @@ from enum import Enum
 
 class ACCOUNT(Enum):
     CREATE = 'account.create'
+    ADD_PERMISSION = 'account.add_permission'
 
 class DEVELOPMENT(Enum):
     CREATE = 'development.create'
