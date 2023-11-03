@@ -460,6 +460,54 @@ class TestBatch():
         await delete_dev(development_id=dev_id, token='46983916')
 
     @pytest.mark.asyncio
+    async def test_get_batch(self):
+        with open('test_assets/foco.png', 'rb') as f:
+            files = {'logo': ('foco.png', f)}
+
+            dev_id = client.post(
+                '/development?token=46983916',
+                data={
+                        'name': 'test',
+                        'description': 'test',
+                        'address': 'test',
+                        'city': 'test',
+                        'state': 'test',
+                        'country': 'test',
+                        'contact_number': 'test',
+                        'contact_email': 'dsadsa'
+                },
+                files=files
+            ).json()['dev_id']
+
+        with open('test_assets/foco.png', 'rb') as png, open('test_assets/foco.svg', 'rb') as svg:
+            files = [
+                ('assets', ('foco.png', png)),
+                ('assets', ('foco.svg', svg))
+            ]
+
+            batch_id = client.post(
+                '/batch?token=46983916',
+                files=files,
+                data={
+                    'area': '90',
+                    'perimeter': '90',
+                    'longitude': '90',
+                    'coords': 'cooooooords',
+                    'amenities': 'amenities',
+                    'price': '90',
+                    'development_id': dev_id
+                }
+            ).json()['batch_id']
+
+
+        res = client.get(
+            '/batch'
+        )
+
+        assert res.status_code == 200
+        await delete_dev(development_id=dev_id, token='46983916')
+
+    @pytest.mark.asyncio
     async def test_modify_batch(self):
         with open('test_assets/foco.png', 'rb') as f:
             files = {'logo': ('foco.png', f)}
@@ -510,10 +558,118 @@ class TestBatch():
                 'price': '0',
             }
         )
-        
+
         assert res.status_code == 200
 
         await delete_dev(development_id=dev_id, token='46983916')
-        
+
+    @pytest.mark.asyncio
+    async def test_edit_batch_asset_with_asset_id(self):
+        with open('test_assets/foco.png', 'rb') as f:
+            files = {'logo': ('foco.png', f)}
+
+            dev_id = client.post(
+                '/development?token=46983916',
+                data={
+                        'name': 'test',
+                        'description': 'test',
+                        'address': 'test',
+                        'city': 'test',
+                        'state': 'test',
+                        'country': 'test',
+                        'contact_number': 'test',
+                        'contact_email': 'dsadsa'
+                },
+                files=files
+            ).json()['dev_id']
+
+        with open('test_assets/foco.png', 'rb') as png, open('test_assets/foco.svg', 'rb') as svg:
+            files = [
+                ('assets', ('foco.png', png)),
+                ('assets', ('foco.svg', svg))
+            ]
+
+            batch_id = client.post(
+                '/batch?token=46983916',
+                files=files,
+                data={
+                    'area': '90',
+                    'perimeter': '90',
+                    'longitude': '90',
+                    'coords': 'cooooooords',
+                    'amenities': 'amenities',
+                    'price': '90',
+                    'development_id': dev_id
+                }
+            ).json()['batch_id']
+
+        asset_id = client.get(
+            "/batch",
+        ).json()['data'][0]['assets'][0]['id']
+
+        with open('test_assets/foco.png', 'rb') as f:
+            files = {'file': ('foco.png', f)}
+
+            res = client.put(
+                f'/batch/asset/{asset_id}?token=46983916',
+                files=files
+            )
+
+        assert res.status_code == 200
+        await delete_dev(development_id=dev_id, token='46983916')
+
+    async def delete_asset_batc_with_asset_id(self):
+        with open('test_assets/foco.png', 'rb') as f:
+            files = {'logo': ('foco.png', f)}
+
+            dev_id = client.post(
+                '/development?token=46983916',
+                data={
+                        'name': 'test',
+                        'description': 'test',
+                        'address': 'test',
+                        'city': 'test',
+                        'state': 'test',
+                        'country': 'test',
+                        'contact_number': 'test',
+                        'contact_email': 'dsadsa'
+                },
+                files=files
+            ).json()['dev_id']
+
+        with open('test_assets/foco.png', 'rb') as png, open('test_assets/foco.svg', 'rb') as svg:
+            files = [
+                ('assets', ('foco.png', png)),
+                ('assets', ('foco.svg', svg))
+            ]
+
+            batch_id = client.post(
+                '/batch?token=46983916',
+                files=files,
+                data={
+                    'area': '90',
+                    'perimeter': '90',
+                    'longitude': '90',
+                    'coords': 'cooooooords',
+                    'amenities': 'amenities',
+                    'price': '90',
+                    'development_id': dev_id
+                }
+            ).json()['batch_id']
+        asset_id = client.get(
+            "/batch",
+        ).json()['data'][0]['assets'][0]['id']
+
+
+        res = client.delete(
+            f'/batch/asset/{asset_id}?token=46983916'
+        )
+
+        assert res.status_code == 200
+        await delete_dev(development_id=dev_id, token='46983916')
+
+
+
+
 
 
