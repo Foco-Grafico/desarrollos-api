@@ -232,7 +232,27 @@ class TestCreateAccount():
         assert response.status_code == 403
 
 class TestPaymentPlan():
-    pass
+    def test_create_payment_plan(self):
+        response = client.post(
+            '/payment?token=46983916',
+            json={
+                'price': 1,
+                'months_to_pay': 3,
+                'annuity': 1,
+                'pay_per_month': 5,
+                'interest_rate': 90,
+                'payment_method': 'cola'
+            }
+        )
+
+        assert response.status_code == 200
+
+        plan_id = response.json()['plan_id']
+
+        colina_db.execute(
+            sql='DELETE FROM payment_plans WHERE id = %s',
+            params=(plan_id,)
+        )
 
 class TestBatch():
     @pytest.mark.asyncio
