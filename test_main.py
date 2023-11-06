@@ -196,7 +196,7 @@ class TestAuth():
             json={
                 'name': 'test',
                 'email': 'test@test.com',
-                'password': 'test'
+                'token': 'test'
             }
         )
 
@@ -230,6 +230,28 @@ class TestAuth():
         )
 
         assert response.status_code == 403
+    @pytest.mark.asyncio
+    async def test_add_rol_perm_to_user(self):
+        id = client.post(
+            '/auth/account?token=46983916',
+            json={
+                'name': 'test',
+                'email': 'test@test.com',
+                'token': 'test'
+            }
+        ).json()['id']
+
+
+        response = client.post(
+             f'/auth/add-perm?token=46983916&user_id={id}&perm_id=role.create',
+        )
+
+        assert response.status_code == 200
+
+        colina_db.execute(
+            sql='DELETE FROM users WHERE email = %s',
+            params=('test@test.com',)
+        )
 
 class TestPaymentPlan():
     def test_create_payment_plan(self):
