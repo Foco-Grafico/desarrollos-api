@@ -39,7 +39,7 @@ async def account(token: str, account: AccountCreate):
             'email': account.email
         }
     )
-    
+
 
 
     return {

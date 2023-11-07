@@ -241,6 +241,14 @@ class TestAuth():
             }
         ).json()['id']
 
+        role_id = client.post(
+            '/role?token=46983916',
+            json={
+                'name': 'test-role',
+                'description': 'test-role',
+                'permissions': ['role.delete']
+            }
+        ).json()['role_id']
 
         response = client.post(
              f'/auth/add-perm?token=46983916&user_id={id}&perm_id=role.create',
