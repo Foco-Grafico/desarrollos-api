@@ -1,6 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from fastapi.staticfiles import StaticFiles
 from app.models.static_dir import StaticDir
+from fastapi.middleware.cors import CORSMiddleware
 
 class App():
     def __init__(
@@ -9,6 +10,14 @@ class App():
         static_dirs: list[StaticDir] = []
     ) -> None:
         self.app = FastAPI()
+
+        self.app.add_middleware(
+            CORSMiddleware,
+            allow_origins=['*'],
+            allow_credentials=True,
+            allow_methods=['*'],
+            allow_headers=['*']
+        )
 
         for router in routers:
             self._add_router(router)
