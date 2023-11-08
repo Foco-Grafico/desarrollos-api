@@ -4,7 +4,7 @@ from services.db import colina_db
 
 async def get_devs():
     devs = colina_db.fetch_all(
-        sql="SELECT * FROM developments",
+        sql="SELECT d.*, UUID() as `key` FROM developments d",
     )
 
     if not devs:
