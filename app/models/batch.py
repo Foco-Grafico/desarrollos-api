@@ -11,6 +11,9 @@ class CreateBatch(BaseModel):
     price: float
     assets: list[UploadFile]
     development_id: int
+    currency: str = 'MXN'
+    location: str
+    sq_m: float
 
     @classmethod
     def as_form(
@@ -22,7 +25,10 @@ class CreateBatch(BaseModel):
         amenities: Annotated[str, Form(...)],
         price: Annotated[float, Form(...)],
         assets: list[UploadFile],
-        development_id: Annotated[int, Form(...)]
+        development_id: Annotated[int, Form(...)],
+        currency: Annotated[str, Form(...)],
+        location: Annotated[str, Form(...)],
+        sq_m: Annotated[float, Form(...)],
     ):
         return cls(
             area=area,
@@ -32,7 +38,10 @@ class CreateBatch(BaseModel):
             amenities=amenities,
             price=price,
             assets=assets,
-            development_id=development_id
+            development_id=development_id,
+            currency=currency,
+            location=location,
+            sq_m=sq_m,
         )
 
 class EditBatch(BaseModel):
@@ -43,6 +52,9 @@ class EditBatch(BaseModel):
     amenities: str | None = None
     price: float | None = None
     development_id: int | None = None
+    currency: str | None = None
+    location: str | None = None
+    sq_m: float | None = None
 
     @classmethod
     def as_form(
@@ -53,7 +65,10 @@ class EditBatch(BaseModel):
         coords: Annotated[str | None, Form(...)] = None,
         amenities: Annotated[str | None, Form(...)] = None,
         price: Annotated[float | None, Form(...)] = None,
-        development_id: Annotated[int | None, Form(...)] = None
+        development_id: Annotated[int | None, Form(...)] = None,
+        currency: Annotated[str | None, Form(...)] = None,
+        location: Annotated[str | None, Form(...)] = None,
+        sq_m: Annotated[float | None, Form(...)] = None
     ):
         return cls(
             area=area,
@@ -62,5 +77,8 @@ class EditBatch(BaseModel):
             coords=coords,
             amenities=amenities,
             price=price,
-            development_id=development_id
+            development_id=development_id,
+            currency=currency,
+            location=location,
+            sq_m=sq_m
         )
