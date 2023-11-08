@@ -38,7 +38,7 @@ async def get_batch_in_dev(development_id:int,):
         raise HTTPException(status_code=404, detail="Development not found")
 
     batch_db = colina_db.fetch_all(
-        sql="SELECT * FROM batches WHERE development_id = %s",
+        sql="SELECT b.*, UUID() as `key` FROM batches b WHERE development_id = %s",
         params=(development_id,)
     )
 
