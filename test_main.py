@@ -232,34 +232,33 @@ class TestAuth():
         assert response.status_code == 403
     @pytest.mark.asyncio
     async def test_add_rol_perm_to_user(self):
-        id = client.post(
-            '/auth/account?token=46983916',
-            json={
-                'name': 'test',
-                'email': 'test@test.com',
-                'token': 'test'
-            }
-        ).json()['id']
+        try:
+            user_id = client.post(
+                '/auth/account?token=46983916',
+                json={
+                    'name': 'test',
+                    'email': 'test@test.com',
+                    'token': 'test'
+                }
+            ).json()['user_id']
 
-        role_id = client.post(
-            '/role?token=46983916',
-            json={
-                'name': 'test-role',
-                'description': 'test-role',
-                'permissions': ['role.delete']
-            }
-        ).json()['role_id']
+            response = client.post(
+                f'/auth/add-perm?token=46983916&user_id={user_id}&perm_id=role.create',
+            )
+            
+            assert response.status_code == 200
 
-        response = client.post(
-             f'/auth/add-perm?token=46983916&user_id={id}&perm_id=role.create',
-        )
+            colina_db.execute(
+                sql='DELETE FROM users WHERE email = %s',
+                params=('test@test.com',)
+            )
 
-        assert response.status_code == 200
+        except KeyError as e:
+            user_id = e.args[0]
+            print(user_id)
+            raise Exception(f"The {user_id} key is missing in the API response.")
 
-        colina_db.execute(
-            sql='DELETE FROM users WHERE email = %s',
-            params=('test@test.com',)
-        )
+
 
 class TestPaymentPlan():
     def test_create_payment_plan(self):

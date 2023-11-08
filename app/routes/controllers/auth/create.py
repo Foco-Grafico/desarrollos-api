@@ -45,5 +45,5 @@ async def account(token: str, account: AccountCreate):
     return {
         'status': 'success',
         'message': 'Account created successfully.',
-        "id": user['id']
+        "user_id": user['id']
     }
