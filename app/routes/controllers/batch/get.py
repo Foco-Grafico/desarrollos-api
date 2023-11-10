@@ -29,6 +29,7 @@ async def get_batches():
         'data': batches
     }
 
+#####here filter by model filters
 async def get_batch_in_dev(development_id:int, elements: int = 50, page: int = 1):
     dev_db = colina_db.fetch_one(
         sql="SELECT id FROM developments WHERE id = %s",
