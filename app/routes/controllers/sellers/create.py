@@ -1,10 +1,10 @@
 from services.db import colina_db
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from app.enums.permissions import SELLER
 from app.models.seller import CreateSeller
 from app.utils import auth, perms
 
-async def seller(token: str, seller: CreateSeller):
+async def seller(token: str, seller: CreateSeller = Depends(CreateSeller.as_form)):
     perm = perms.get_perm_id(SELLER.CREATE.value)
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
