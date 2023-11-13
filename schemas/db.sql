@@ -138,6 +138,7 @@ CREATE TABLE batches (
     currency VARCHAR(10) NOT NULL,
     location TEXT NOT NULL,
     sq_m DECIMAL(10,2) NOT NULL,
+    sides INT NOT NULl,
     status INT NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
     CONSTRAINT fk_batch_dev FOREIGN KEY (development_id) REFERENCES developments (id) ON DELETE CASCADE,

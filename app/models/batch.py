@@ -14,6 +14,7 @@ class CreateBatch(BaseModel):
     currency: str = 'MXN'
     location: str
     sq_m: float
+    sides: int 
 
     @classmethod
     def as_form(
@@ -29,6 +30,7 @@ class CreateBatch(BaseModel):
         currency: Annotated[str, Form(...)],
         location: Annotated[str, Form(...)],
         sq_m: Annotated[float, Form(...)],
+        sides: Annotated[int, Form(...)]
     ):
         return cls(
             area=area,
@@ -42,6 +44,7 @@ class CreateBatch(BaseModel):
             currency=currency,
             location=location,
             sq_m=sq_m,
+            sides=sides
         )
 
 class EditBatch(BaseModel):
@@ -55,6 +58,7 @@ class EditBatch(BaseModel):
     currency: str | None = None
     location: str | None = None
     sq_m: float | None = None
+    sides: int | None = None
 
     @classmethod
     def as_form(
@@ -68,7 +72,8 @@ class EditBatch(BaseModel):
         development_id: Annotated[int | None, Form(...)] = None,
         currency: Annotated[str | None, Form(...)] = None,
         location: Annotated[str | None, Form(...)] = None,
-        sq_m: Annotated[float | None, Form(...)] = None
+        sq_m: Annotated[float | None, Form(...)] = None,
+        sides: Annotated[int | None, Form(...)] = None
     ):
         return cls(
             area=area,
@@ -80,5 +85,6 @@ class EditBatch(BaseModel):
             development_id=development_id,
             currency=currency,
             location=location,
-            sq_m=sq_m
+            sq_m=sq_m,
+            sides=sides
         )
