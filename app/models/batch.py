@@ -2,6 +2,19 @@ from pydantic import BaseModel
 from fastapi import UploadFile, Form
 from typing import Annotated
 
+class FilterBatch(BaseModel):
+    area: float | None = None
+    perimeter: float | None = None
+    longitude: float | None = None
+    coords: str | None = None
+    amenities: str | None = None
+    price: float | None = None
+    development_id: int | None = None
+    currency: str | None = None
+    location: str | None = None
+    sq_m: float | None = None
+    sides: int | None = None
+
 class CreateBatch(BaseModel):
     area: float
     perimeter: float
