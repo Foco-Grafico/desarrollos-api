@@ -14,5 +14,5 @@ router.put('/{batch_id}')(modify.modify_batch)
 router.put('/asset/{asset_id}')(modify.modify_batch_asset)
 router.delete('/asset/{asset_id}')(delete.delete_image_from_batch)
 router.get('')(get.get_batches)
-router.get('/{development_id}')(get.get_batch_in_dev)
+router.post('/{development_id}')(get.get_batch_in_dev)
 
