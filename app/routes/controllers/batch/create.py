@@ -33,7 +33,8 @@ async def batch(token: str, status: STATUS_BATCH | None = None, batch: CreateBat
                 'currency': batch.currency,
                 'location': batch.location,
                 'sq_m': batch.sq_m,
-                'status': status.value if status is not None else STATUS_BATCH.AVAILABLE.value
+                'status': status.value if status is not None else STATUS_BATCH.AVAILABLE.value,
+                'sides': batch.sides
             }
         )
     except Exception as e:
