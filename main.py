@@ -1,9 +1,10 @@
 from services.fastapi import App
-from app.routes.routers import auth, developments, role, batch, payment_plan, seller
+from app.routes.routers import auth, developments, role, batch, payment_plan, seller, status
 from app.models.static_dir import StaticDir
 
 app = App(
     routers=[
+        status.router,
         auth.router,
         role.router,
         seller.router,
