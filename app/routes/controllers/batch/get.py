@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from services.db import colina_db
 import math
 from app.models.batch import FilterBatch
+from app.enums.statuses import STATUS_BATCH
 
 async def get_batches():
     batches = colina_db.fetch_all(
@@ -39,7 +40,7 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
     if not dev_db:
         raise HTTPException(status_code=404, detail="Development not found")
 
-    sql_batches = u"SELECT b.*, UUID() as `key` FROM batches b WHERE development_id = %s {filters_formatted} LIMIT %s OFFSET %s"
+    sql_batches = u"SELECT b.*, UUID() as `key` FROM batches b WHERE development_id = %s AND status = %s {filters_formatted} LIMIT %s OFFSET %s"
 
     filters_sql = ''
 
@@ -51,7 +52,7 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
 
     batch_db = colina_db.fetch_all(
         sql=sql_batches,
-        params=(development_id, elements, (page - 1) * elements)
+        params=(development_id, STATUS_BATCH.AVAILABLE.value, elements, (page - 1) * elements)
     )
 
     if not batch_db:
