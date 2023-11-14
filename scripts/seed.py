@@ -46,6 +46,7 @@ def create_batches(num_batch_per_dev: int):
     devs = colina_db.select(table='developments', columns=['id'])
 
     currecies = ['MXN', 'USD', 'EUR', 'CAD', 'GBP', 'JPY', 'CNY', 'CHF', 'AUD', 'NZD']
+    status = [1, 2, 3]
 
     for dev in devs:
         for i in range(num_batch_per_dev):
@@ -73,7 +74,8 @@ def create_batches(num_batch_per_dev: int):
                 'location': 'location',
                 'sq_m': 100,
                 'amenities': 'amenities',
-                'sides': 4
+                'sides': 4,
+                'status': status[i % len(status)]
             }
 
             print(f'Creating batch {i+1} for development {dev["id"]}...')
@@ -82,7 +84,7 @@ def create_batches(num_batch_per_dev: int):
 
             batch_assets_data = {
                 'batch_id': batch_id,
-                'asset_url': 'https://i.imgur.com/lUaRevO.jpeg'
+                'asset_url': 'public/colina.png'
             }
 
             colina_db.insert(table='batch_assets', data=batch_assets_data)
