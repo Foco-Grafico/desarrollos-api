@@ -84,7 +84,7 @@ def create_batches(num_batch_per_dev: int):
 
             batch_assets_data = {
                 'batch_id': batch_id,
-                'asset_url': 'https://i.imgur.com/lUaRevO.jpeg'
+                'asset_url': 'public/colina.png'
             }
 
             colina_db.insert(table='batch_assets', data=batch_assets_data)
