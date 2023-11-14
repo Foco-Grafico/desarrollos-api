@@ -14,7 +14,6 @@ class FilterBatch(BaseModel):
     location: str | None = None
     sq_m: float | None = None
     sides: int | None = None
-    status: int | None = None
 
 class CreateBatch(BaseModel):
     area: float
