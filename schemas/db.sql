@@ -1,4 +1,4 @@
--- Active: 1696921476499@@127.0.0.1@3306@colinaperla
+-- Active: 1699638164224@@127.0.0.1@3306
 
 DROP DATABASE IF EXISTS colinaperla;
 
@@ -135,6 +135,10 @@ CREATE TABLE batches (
     coords VARCHAR(255) NOT NULL,
     amenities VARCHAR(255) NOT NULL,
     development_id INT NOT NULL,
+    currency VARCHAR(10) NOT NULL,
+    location TEXT NOT NULL,
+    sq_m DECIMAL(10,2) NOT NULL,
+    sides INT NOT NULl,
     status INT NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
     CONSTRAINT fk_batch_dev FOREIGN KEY (development_id) REFERENCES developments (id) ON DELETE CASCADE,
