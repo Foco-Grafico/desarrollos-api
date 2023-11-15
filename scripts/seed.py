@@ -34,7 +34,7 @@ def create_devs(num_devs: int):
             'city': f'Ciudad del desarrollo {i+1}',
             'state': f'Estado del desarrollo {i+1}',
             'country': f'Pais del desarrollo {i+1}',
-            'logo_url': 'https://i.imgur.com/lUaRevO.jpeg',
+            'logo_url': 'public/colina.svg',
             'contact_number': '1234567890',
             'contact_email': 'contact@colina.com'
         }
