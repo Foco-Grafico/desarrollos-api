@@ -78,10 +78,9 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
     return {
         'message': 'Batch found successfully',
         'data': batch_db,
-        'max_pages': math.ceil(colina_db.select_one(
-            table='batches',
-            where={'development_id': development_id},
-            columns=['count(*) as counter']
+        'max_pages': math.ceil(colina_db.fetch_one(
+            sql=u"SELECT count(*) as counter FROM batches WHERE development_id = %s AND status = %s {filters_formatted}".format(filters_formatted=filters_sql),
+            params=(development_id, STATUS_BATCH.AVAILABLE.value)
         )['counter'] / elements),
         'page': page
     }
