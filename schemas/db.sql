@@ -1,4 +1,4 @@
--- Active: 1695825540607@@127.0.0.1@3306@colinaperla
+-- Active: 1699638164224@@127.0.0.1@3306@colinaperla
 
 DROP DATABASE IF EXISTS colinaperla;
 
@@ -97,6 +97,7 @@ CREATE TABLE developments (
     logo_url VARCHAR(255) NOT NULL,
     contact_number VARCHAR(25) NOT NULL,
     contact_email VARCHAR(255) NOT NULL,
+    view_url TEXT,
     status INT NOT NULL DEFAULT 6,
     PRIMARY KEY (id),
     UNIQUE KEY name (name),

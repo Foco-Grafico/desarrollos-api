@@ -36,7 +36,8 @@ def create_devs(num_devs: int):
             'country': f'Pais del desarrollo {i+1}',
             'logo_url': 'public/colina.svg',
             'contact_number': '1234567890',
-            'contact_email': 'contact@colina.com'
+            'contact_email': 'contact@colina.com',
+            'view_url': "https://www.klapty.com/tour/tunnel/Ua30Cj4PJb" if i % 2 == 0 else None
         }
         print(f'Creating development {i+1}...')
 
