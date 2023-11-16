@@ -14,8 +14,11 @@ class FilterBatch(BaseModel):
     location: str | None = None
     sq_m: float | None = None
     sides: int | None = None
+    block: int | None = None
 
 class CreateBatch(BaseModel):
+    block: int
+    number_of_batch: int
     area: float
     perimeter: float
     longitude: float
@@ -27,7 +30,7 @@ class CreateBatch(BaseModel):
     currency: str = 'MXN'
     location: str
     sq_m: float
-    sides: int 
+    sides: int
 
     @classmethod
     def as_form(
@@ -43,7 +46,9 @@ class CreateBatch(BaseModel):
         currency: Annotated[str, Form(...)],
         location: Annotated[str, Form(...)],
         sq_m: Annotated[float, Form(...)],
-        sides: Annotated[int, Form(...)]
+        sides: Annotated[int, Form(...)],
+        block: Annotated[int, Form(...)],
+        number_of_batch: Annotated[int, Form(...)]
     ):
         return cls(
             area=area,
@@ -57,7 +62,9 @@ class CreateBatch(BaseModel):
             currency=currency,
             location=location,
             sq_m=sq_m,
-            sides=sides
+            sides=sides,
+            block=block,
+            number_of_batch=number_of_batch
         )
 
 class EditBatch(BaseModel):
@@ -72,6 +79,8 @@ class EditBatch(BaseModel):
     location: str | None = None
     sq_m: float | None = None
     sides: int | None = None
+    block: int | None = None
+    number_of_batch: int | None = None
 
     @classmethod
     def as_form(
@@ -86,7 +95,9 @@ class EditBatch(BaseModel):
         currency: Annotated[str | None, Form(...)] = None,
         location: Annotated[str | None, Form(...)] = None,
         sq_m: Annotated[float | None, Form(...)] = None,
-        sides: Annotated[int | None, Form(...)] = None
+        sides: Annotated[int | None, Form(...)] = None,
+        block: Annotated[int | None, Form(...)] = None,
+        number_of_batch: Annotated[int | None, Form(...)] = None
     ):
         return cls(
             area=area,
@@ -99,5 +110,7 @@ class EditBatch(BaseModel):
             currency=currency,
             location=location,
             sq_m=sq_m,
-            sides=sides
+            sides=sides,
+            block=block,
+            number_of_batch=number_of_batch
         )
