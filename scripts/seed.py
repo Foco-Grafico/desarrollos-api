@@ -76,6 +76,8 @@ def create_batches(num_batch_per_dev: int):
                 'sq_m': 100,
                 'amenities': 'amenities',
                 'sides': 4,
+                'block': math.ceil((i+1)/10),
+                'number_of_batch': i+1,
                 'status': status[i % len(status)]
             }
 

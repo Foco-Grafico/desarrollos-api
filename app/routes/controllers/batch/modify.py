@@ -76,7 +76,9 @@ async def modify_batch(
                 'currency': batch.currency if batch.currency is not None else batch_db['currency'],
                 'location': batch.location if batch.location is not None else batch_db['location'],
                 'sq_m': batch.sq_m if batch.sq_m is not None else batch_db['sq_m'],
-                'sides': batch.sides if batch.sides is not None else batch_db['sides']
+                'sides': batch.sides if batch.sides is not None else batch_db['sides'],
+                'block': batch.block if batch.block is not None else batch_db['block'],
+                'number_of_batch': batch.number_of_batch if batch.number_of_batch is not None else batch_db['number_of_batch']
             },
         )
     except Exception as e:

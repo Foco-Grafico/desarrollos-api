@@ -130,6 +130,8 @@ INSERT INTO batch_status (name) VALUES
 CREATE TABLE batches (
     id INT NOT NULL AUTO_INCREMENT,
     area DECIMAL(10,2) NOT NULL,
+    block INT NOT NULL,
+    number_of_batch INT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     perimeter DECIMAL(10,2) NOT NULL,
     longitude DECIMAL(10,2) NOT NULL,
