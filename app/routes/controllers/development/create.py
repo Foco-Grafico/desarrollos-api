@@ -33,7 +33,9 @@ async def dev(token: str, dev: CreateDevelopment = Depends(CreateDevelopment.as_
                 'country': dev.country,
                 'logo_url': logo_url,
                 'contact_number': dev.contact_number,
-                'contact_email': dev.contact_email
+                'contact_email': dev.contact_email,
+                'view_url': dev.view_url,
+                'max_blocks': dev.max_blocks
             }
         )
     except Exception as e:

@@ -84,3 +84,14 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
         )['counter'] / elements),
         'page': page
     }
+
+async def get_batches_types():
+    types = colina_db.select(
+        table = 'batch_types',
+        columns=['*', 'UUID() as `key`']
+    )
+
+    return {
+        'message': 'Batch types found successfully',
+        'data': types
+    }

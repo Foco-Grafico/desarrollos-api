@@ -15,6 +15,7 @@ class FilterBatch(BaseModel):
     sq_m: float | None = None
     sides: int | None = None
     block: int | None = None
+    type: int | None = None
 
 class CreateBatch(BaseModel):
     block: int
@@ -31,6 +32,7 @@ class CreateBatch(BaseModel):
     location: str
     sq_m: float
     sides: int
+    type: int
 
     @classmethod
     def as_form(
@@ -48,7 +50,8 @@ class CreateBatch(BaseModel):
         sq_m: Annotated[float, Form(...)],
         sides: Annotated[int, Form(...)],
         block: Annotated[int, Form(...)],
-        number_of_batch: Annotated[int, Form(...)]
+        number_of_batch: Annotated[int, Form(...)],
+        type: Annotated[int, Form(...)]
     ):
         return cls(
             area=area,
@@ -64,7 +67,8 @@ class CreateBatch(BaseModel):
             sq_m=sq_m,
             sides=sides,
             block=block,
-            number_of_batch=number_of_batch
+            number_of_batch=number_of_batch,
+            type=type
         )
 
 class EditBatch(BaseModel):
@@ -81,6 +85,7 @@ class EditBatch(BaseModel):
     sides: int | None = None
     block: int | None = None
     number_of_batch: int | None = None
+    type: int | None = None
 
     @classmethod
     def as_form(
@@ -97,7 +102,8 @@ class EditBatch(BaseModel):
         sq_m: Annotated[float | None, Form(...)] = None,
         sides: Annotated[int | None, Form(...)] = None,
         block: Annotated[int | None, Form(...)] = None,
-        number_of_batch: Annotated[int | None, Form(...)] = None
+        number_of_batch: Annotated[int | None, Form(...)] = None,
+        type: Annotated[int | None, Form(...)] = None
     ):
         return cls(
             area=area,
@@ -112,5 +118,6 @@ class EditBatch(BaseModel):
             sq_m=sq_m,
             sides=sides,
             block=block,
-            number_of_batch=number_of_batch
+            number_of_batch=number_of_batch,
+            type=type
         )
