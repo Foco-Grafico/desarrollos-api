@@ -98,6 +98,7 @@ CREATE TABLE developments (
     contact_number VARCHAR(25) NOT NULL,
     contact_email VARCHAR(255) NOT NULL,
     view_url TEXT,
+    max_blocks INT NOT NULL,
     status INT NOT NULL DEFAULT 6,
     PRIMARY KEY (id),
     UNIQUE KEY name (name),
@@ -127,6 +128,22 @@ INSERT INTO batch_status (name) VALUES
     ('Vendido'),
     ('Reservado');
 
+CREATE TABLE batch_types (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY name (name)
+);
+
+INSERT INTO batch_types (name) VALUES
+    ('Lote Regular'),
+    ('Esquina Regular'),
+    ('Lote Area Verde'),
+    ('Esquina Area Verde'),
+    ('Lote Amenidad'),
+    ('Comercial Regular'),
+    ('Comercial Esquina');
+
 CREATE TABLE batches (
     id INT NOT NULL AUTO_INCREMENT,
     area DECIMAL(10,2) NOT NULL,
@@ -143,9 +160,11 @@ CREATE TABLE batches (
     sq_m DECIMAL(10,2) NOT NULL,
     sides INT NOT NULl,
     status INT NOT NULL DEFAULT 1,
+    type INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_batch_dev FOREIGN KEY (development_id) REFERENCES developments (id) ON DELETE CASCADE,
-    CONSTRAINT fk_batch_status FOREIGN KEY (status) REFERENCES batch_status (id)
+    CONSTRAINT fk_batch_status FOREIGN KEY (status) REFERENCES batch_status (id),
+    CONSTRAINT fk_batch_type FOREIGN KEY (type) REFERENCES batch_types (id)
 );
 
 CREATE TABLE batch_assets (

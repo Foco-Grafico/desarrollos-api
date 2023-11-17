@@ -12,6 +12,8 @@ class CreateDevelopment(BaseModel):
     logo: UploadFile
     contact_number: str
     contact_email: str
+    view_url: str | None = None
+    max_blocks: int
 
     @classmethod
     def as_form(
@@ -24,7 +26,9 @@ class CreateDevelopment(BaseModel):
         logo: UploadFile,
         contact_number: Annotated[str, Form(...)],
         contact_email: Annotated[str, Form(...)],
-        description: Annotated[str | None, Form(...)] = None
+        max_blocks: Annotated[int, Form(...)],
+        description: Annotated[str | None, Form(...)] = None,
+        view_url: Annotated[str | None, Form(...)] = None
     ):
         return cls(
             name=name,
@@ -35,7 +39,9 @@ class CreateDevelopment(BaseModel):
             country=country,
             logo=logo,
             contact_number=contact_number,
-            contact_email=contact_email
+            contact_email=contact_email,
+            view_url=view_url,
+            max_blocks=max_blocks
         )
 
 class EditDevelopment(BaseModel):

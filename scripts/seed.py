@@ -37,6 +37,7 @@ def create_devs(num_devs: int):
             'logo_url': 'public/colina.svg',
             'contact_number': '1234567890',
             'contact_email': 'contact@colina.com',
+            'max_blocks': 2,
             'view_url': "https://www.klapty.com/tour/tunnel/Ua30Cj4PJb" if i % 2 == 0 else None
         }
         print(f'Creating development {i+1}...')
@@ -76,9 +77,10 @@ def create_batches(num_batch_per_dev: int):
                 'sq_m': 100,
                 'amenities': 'amenities',
                 'sides': 4,
-                'block': math.ceil((i+1)/10),
+                'block': 1 if i % 2 == 0 else 2,
                 'number_of_batch': i+1,
-                'status': status[i % len(status)]
+                'status': status[i % len(status)],
+                'type': i % 7 + 1
             }
 
             print(f'Creating batch {i+1} for development {dev["id"]}...')
