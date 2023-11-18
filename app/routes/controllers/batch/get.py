@@ -85,6 +85,44 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
         'page': page
     }
 
+async def get_batch_in_dev_by_id(development_id:int, batch_id:int):
+    dev_db = colina_db.fetch_one(
+        sql="SELECT id FROM developments WHERE id = %s",
+        params=(development_id,)
+    )
+
+    if not dev_db:
+        raise HTTPException(status_code=404, detail="Development not found")
+
+    batch_db = colina_db.fetch_one(
+        sql="SELECT * FROM batches WHERE development_id = %s AND id = %s",
+        params=(development_id, batch_id)
+    )
+
+    if not batch_db:
+        raise HTTPException(status_code=404, detail="Batch not found")
+
+    batch_db['assets'] = colina_db.fetch_all(
+        sql="SELECT * FROM batch_assets WHERE batch_id = %s",
+        params=(batch_db['id'],)
+    )
+
+    batch_db['payment_plans'] = colina_db.fetch_all(
+        sql="SELECT * FROM batch_payment_plans WHERE batch_id = %s",
+        params=(batch_db['id'],)
+    )
+
+    batch_db['status'] = colina_db.select_one(
+        table='batch_status',
+        where={'id': batch_db['status']},
+        columns=['*']
+    )
+
+    return {
+        'message': 'Batch found successfully',
+        'data': batch_db
+    }
+
 async def get_batches_types():
     types = colina_db.select(
         table = 'batch_types',
