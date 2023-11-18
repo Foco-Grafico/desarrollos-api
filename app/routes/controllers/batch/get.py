@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from services.db import colina_db
 import math
-from app.models.batch import FilterBatch
+from app.models.batch import FilterBatch, FilterOperation
 from app.enums.statuses import STATUS_BATCH
 
 async def get_batches():
@@ -44,7 +44,13 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
 
     filters_sql = ''
 
-    for key, value in filters.model_dump().items():
+    for key, value in filters:
+        if isinstance(value, list):
+            for operation in value:
+                if isinstance(operation, FilterOperation):
+                    filters_sql += f" AND {key} {operation.operator} '{operation.value}'"
+            continue
+
         if value is not None:
             filters_sql += f" AND {key} = '{value}'"
 

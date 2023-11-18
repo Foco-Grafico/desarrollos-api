@@ -2,20 +2,24 @@ from pydantic import BaseModel
 from fastapi import UploadFile, Form
 from typing import Annotated
 
+class FilterOperation(BaseModel):
+    operator: str
+    value: str | int | float
+
 class FilterBatch(BaseModel):
-    area: float | None = None
-    perimeter: float | None = None
-    longitude: float | None = None
-    coords: str | None = None
-    amenities: str | None = None
-    price: float | None = None
-    development_id: int | None = None
-    currency: str | None = None
-    location: str | None = None
-    sq_m: float | None = None
-    sides: int | None = None
-    block: int | None = None
-    type: int | None = None
+    area: float | list[FilterOperation] | None = None
+    perimeter: float | list[FilterOperation] | None = None
+    longitude: float | list[FilterOperation] | None = None
+    coords: str | list[FilterOperation] | None = None
+    amenities: str | list[FilterOperation] | None = None
+    price: float | list[FilterOperation] | None = None
+    development_id: int | list[FilterOperation] | None = None
+    currency: str | list[FilterOperation] | None = None
+    location: str | list[FilterOperation] | None = None
+    sq_m: float | list[FilterOperation] | None = None
+    sides: int | list[FilterOperation] | None = None
+    block: int | list[FilterOperation] | None = None
+    type: int | list[FilterOperation] | None = None
 
 class CreateBatch(BaseModel):
     block: int

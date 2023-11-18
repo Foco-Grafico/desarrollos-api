@@ -74,7 +74,7 @@ def create_batches(num_batch_per_dev: int):
                 'development_id': dev['id'],
                 'currency': currecies[i % len(currecies)],
                 'location': 'location',
-                'sq_m': 100,
+                'sq_m': i % 800 + 1,
                 'amenities': 'amenities',
                 'sides': 4,
                 'block': 1 if i % 2 == 0 else 2,
@@ -106,5 +106,5 @@ create_devs(50)
 print('Developments created')
 
 print('Creating batches...')
-create_batches(100)
+create_batches(750)
 print('Batches created')
