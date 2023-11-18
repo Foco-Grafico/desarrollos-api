@@ -1,4 +1,4 @@
--- Active: 1699638164224@@127.0.0.1@3306@colinaperla
+-- Active: 1694997931457@@127.0.0.1@3306@colinaperla
 
 DROP DATABASE IF EXISTS colinaperla;
 
@@ -99,10 +99,12 @@ CREATE TABLE developments (
     contact_email VARCHAR(255) NOT NULL,
     view_url TEXT,
     max_blocks INT NOT NULL,
+    slug VARCHAR(255) NOT NULL,
     status INT NOT NULL DEFAULT 6,
     PRIMARY KEY (id),
     UNIQUE KEY name (name),
-    CONSTRAINT fk_dev_status FOREIGN KEY (status) REFERENCES dev_status (id)
+    CONSTRAINT fk_dev_status FOREIGN KEY (status) REFERENCES dev_status (id),
+    CONSTRAINT fk_dev_slug UNIQUE KEY (slug)
 );
 
 CREATE TABLE payment_plans (

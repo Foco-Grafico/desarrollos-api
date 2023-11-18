@@ -38,7 +38,8 @@ def create_devs(num_devs: int):
             'contact_number': '1234567890',
             'contact_email': 'contact@colina.com',
             'max_blocks': 2,
-            'view_url': "https://www.klapty.com/tour/tunnel/Ua30Cj4PJb" if i % 2 == 0 else None
+            'view_url': "https://www.klapty.com/tour/tunnel/Ua30Cj4PJb" if i % 2 == 0 else None,
+            'slug': f'desarrollo-{i+1}'
         }
         print(f'Creating development {i+1}...')
 

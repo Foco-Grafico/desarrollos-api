@@ -14,6 +14,7 @@ class CreateDevelopment(BaseModel):
     contact_email: str
     view_url: str | None = None
     max_blocks: int
+    slug: str
 
     @classmethod
     def as_form(
@@ -27,6 +28,7 @@ class CreateDevelopment(BaseModel):
         contact_number: Annotated[str, Form(...)],
         contact_email: Annotated[str, Form(...)],
         max_blocks: Annotated[int, Form(...)],
+        slug: Annotated[str, Form(...)],
         description: Annotated[str | None, Form(...)] = None,
         view_url: Annotated[str | None, Form(...)] = None
     ):
@@ -41,7 +43,8 @@ class CreateDevelopment(BaseModel):
             contact_number=contact_number,
             contact_email=contact_email,
             view_url=view_url,
-            max_blocks=max_blocks
+            max_blocks=max_blocks,
+            slug=slug
         )
 
 class EditDevelopment(BaseModel):

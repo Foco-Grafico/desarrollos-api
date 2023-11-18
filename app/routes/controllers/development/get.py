@@ -15,11 +15,20 @@ async def get_devs():
         'data': devs
     }
 
-async def get_dev(development_id: int):
+async def get_dev(development_id: int | str):
     dev = colina_db.fetch_one(
         sql = "SELECT * FROM developments WHERE id = %s",
         params=(development_id,)
     )
+
+    if not dev:
+        dev = colina_db.select_one(
+            table='developments',
+            columns=['*'],
+            where={
+                'slug': development_id
+            }
+        )
 
     if not dev:
         raise HTTPException(status_code=404, detail="Development not found")
