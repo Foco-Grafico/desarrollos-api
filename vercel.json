@@ -2,7 +2,7 @@
   "public": true,
   "builds": [
     {
-      "src": "main.py",
+      "src": "app.py",
       "use": "@vercel/python"
     }
   ],
