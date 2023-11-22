@@ -2,6 +2,7 @@ from mysqlclientpy import DB
 from dotenv import load_dotenv
 import os
 import math
+import random
 load_dotenv()
 
 class Env():
@@ -48,7 +49,7 @@ def create_devs(num_devs: int):
 def create_batches(num_batch_per_dev: int):
     devs = colina_db.select(table='developments', columns=['id'])
 
-    currecies = ['MXN', 'USD', 'EUR', 'CAD', 'GBP', 'JPY', 'CNY', 'CHF', 'AUD', 'NZD']
+    # currecies = ['MXN', 'USD', 'EUR', 'CAD', 'GBP', 'JPY', 'CNY', 'CHF', 'AUD', 'NZD']
     status = [1, 2, 3]
 
     for dev in devs:
@@ -68,14 +69,14 @@ def create_batches(num_batch_per_dev: int):
 
             batch_data = {
                 'area': 100,
-                'price': 100000,
+                'price': random.randint(30000, 1000000),
                 'perimeter': 100,
                 'longitude': 100,
                 'coords': 'coords',
                 'development_id': dev['id'],
-                'currency': currecies[i % len(currecies)],
+                'currency': 'MXN',
                 'location': 'location',
-                'sq_m': i % 800 + 1,
+                'sq_m': random.randint(1, num_batch_per_dev),
                 'amenities': 'amenities',
                 'sides': 4,
                 'block': 1 if i % 2 == 0 else 2,

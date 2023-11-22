@@ -33,8 +33,23 @@ async def get_dev(development_id: int | str):
     if not dev:
         raise HTTPException(status_code=404, detail="Development not found")
     
+    sqm_list = colina_db.fetch_all(
+        sql="SELECT DISTINCT sq_m FROM batches WHERE development_id = %s",
+        params=(dev['id'],)
+    )
+
+    price_range = colina_db.fetch_one(
+        sql="SELECT MIN(price) as min, MAX(price) as max FROM batches WHERE development_id = %s",
+        params=(dev['id'],)
+    )
+
     return {
         "message": 'Development found successfully.',
-        "data": dev
+        "data": dev,
+        "sqm_list": list(map(
+            lambda sqm: sqm['sq_m'],
+            sqm_list
+        )),
+        "price_range": price_range
     }
  

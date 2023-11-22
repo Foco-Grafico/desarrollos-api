@@ -31,7 +31,7 @@ async def get_batches():
         'data': batches
     }
 
-async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: int = 50, page: int = 1):
+async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max: bool = False, elements: int = 50, page: int = 1):
     dev_db = colina_db.fetch_one(
         sql="SELECT id FROM developments WHERE id = %s",
         params=(development_id,)
@@ -80,6 +80,9 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, elements: i
             where={'id': batch['status']},
             columns=['*']
         )
+
+    if min_to_max:
+        batch_db = sorted(batch_db, key=lambda batch: batch['price'])
 
     return {
         'message': 'Batch found successfully',
