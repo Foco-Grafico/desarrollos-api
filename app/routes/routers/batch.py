@@ -16,4 +16,5 @@ router.delete('/asset/{asset_id}')(delete.delete_image_from_batch)
 router.get('')(get.get_batches)
 router.post('/{development_id}')(get.get_batch_in_dev)
 router.get('/types')(get.get_batches_types)
+router.get('/{id}')(get.get_batch)
 

@@ -104,3 +104,34 @@ async def get_batches_types():
         'message': 'Batch types found successfully',
         'data': types
     }
+
+async def get_batch(id: int):
+    batch = colina_db.select_one(
+        table='batches',
+        columns=['*', 'UUID() as `key`'],
+        where={'id': id},
+    )
+
+    if not batch:
+        raise HTTPException(status_code=404, detail="Batch not found")
+    
+    batch['assets'] = colina_db.fetch_all(
+            sql="SELECT * FROM batch_assets WHERE batch_id = %s",
+            params=(batch['id'],)
+        )
+
+    batch['payment_plans'] = colina_db.fetch_all(
+        sql="SELECT * FROM batch_payment_plans WHERE batch_id = %s",
+        params=(batch['id'],)
+    )
+
+    batch['status'] = colina_db.select_one(
+        table='batch_status',
+        where={'id': batch['status']},
+        columns=['*']
+    )
+
+    return {
+        'message': 'Batch found successfully',
+        'data': batch
+    }
