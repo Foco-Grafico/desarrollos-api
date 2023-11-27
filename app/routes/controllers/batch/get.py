@@ -4,6 +4,10 @@ import math
 from app.models.batch import FilterBatch, FilterOperation
 from app.enums.statuses import STATUS_BATCH
 
+async def get_cotization(id: int):
+    batch_res = await get_batch(id)
+    batch = batch_res['data']
+
 async def get_batches():
     batches = colina_db.fetch_all(
         sql="SELECT * FROM batches"
