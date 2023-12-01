@@ -21,11 +21,7 @@ app = App(
     ]
 ).get_app()
 
-# whats_client = WhatsClient(
-#     token='EAAX0Spl0G3oBAPdy7NFl8Ta6swZBzrPlgKbSGvfyPj5J7NFTO14Pr40avW5vZCrNK05JgHPd60iFKcILObwP9LLfIDzg4bZAwFWK4wCy0mInCsyjrXBzdx4f3KLwhnQs2ZABojWlX6RXt6j2YjMTXGB3q2AaDBgqOHABsjDj2Vp7DGJDJMBd',
-#     socket='https://stellar-extreme-wedelia.glitch.me',
-#     tel_id='114899638230787'
-# )
+
 
 sio = socketio.Client()
 sio.connect(Env.get_secure('WA_SOCKET'))
