@@ -27,10 +27,10 @@ def send_controller(message: str | Buttons | List, to: str, message_id: str | No
             }
 
         response = requests.post(
-            url=f'https://graph.facebook.com/v16.0/{Env.get_secure('WA_IDTEL')}/messages',
+            url=f'https://graph.facebook.com/v16.0/{Env.get_secure("WA_IDTEL")}/messages',
             data=json.dumps(body),
             headers={
-                'Authorization': f'Bearer {Env.get_secure('WA_TOKEN')}',
+                'Authorization': f'Bearer {Env.get_secure("WA_TOKEN")}',
                 'Content-Type': 'application/json',
                 'accept': 'application/json'
             }

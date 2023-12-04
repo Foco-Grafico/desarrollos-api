@@ -3,10 +3,36 @@ from services.db import colina_db
 import math
 from app.models.batch import FilterBatch, FilterOperation
 from app.enums.statuses import STATUS_BATCH
+# from schemas.batch_cotizations import one_plan
+# from datetime import datetime
+# from weasyprint import HTML
+# from uuid import uuid4
 
 async def get_cotization(id: int):
-    batch_res = await get_batch(id)
-    batch = batch_res['data']
+    # batch_res = await get_batch(id)
+    # batch = batch_res['data']
+
+    # if batch['status']['id'] != STATUS_BATCH.AVAILABLE.value:
+    #     raise HTTPException(status_code=404, detail="Batch not found")
+    
+    # html = one_plan.html.format(
+    #     image=batch['assets'][0]['url'],
+    #     date=datetime.now().strftime("%d/%m/%Y")
+    # )
+
+    # uuid = str(uuid4())
+
+    # with open(f'public/{uuid}.html', 'w') as f:
+    #     f.write(html)
+
+    # html = HTML(f'public/{uuid}.html')
+    # html.write_pdf(f'public/{uuid}.pdf')
+
+    # return {
+    #     'path': f'public/{uuid}.pdf'
+    # }
+    pass
+    
 
 async def get_batches():
     batches = colina_db.fetch_all(
