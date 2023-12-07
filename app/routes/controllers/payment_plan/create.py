@@ -21,7 +21,8 @@ async def payment_plan(
                 'annuity': payment_plan.annuity,
                 'pay_per_month': payment_plan.pay_per_month,
                 'interest_rate': payment_plan.interest_rate,
-                'payment_method': payment_plan.payment_method
+                'payment_method': payment_plan.payment_method,
+                'down_payment': payment_plan.down_payment
             }
         )
     except Exception as e:

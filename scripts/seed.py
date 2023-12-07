@@ -55,12 +55,13 @@ def create_batches(num_batch_per_dev: int):
     for dev in devs:
         for i in range(num_batch_per_dev):
             payment_plan = {
-                'months_to_pay': i+1*3,
+                'months_to_pay': 6,
                 'interest_rate': 0.1,
                 'annuity': i+1*math.pi,
-                'pay_per_month': (i+1*math.pi)/12,
+                'pay_per_month': (100000+(100000*0.1))/6,
                 'payment_method': 'payment_method',
                 'price': 100000,
+                'down_payment': 10000
             }
 
             print(f'Creating payment plan {i+1} for development {dev["id"]}...')

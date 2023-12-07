@@ -114,6 +114,7 @@ CREATE TABLE payment_plans (
     annuity DECIMAL(10,2) NOT NULL,
     pay_per_month DECIMAL(10,2) NOT NULL,
     payment_method VARCHAR(255) NOT NULL,
+    down_payment DECIMAL(10,2) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (id)
 );

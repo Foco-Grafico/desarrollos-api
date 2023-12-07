@@ -3,36 +3,6 @@ from services.db import colina_db
 import math
 from app.models.batch import FilterBatch, FilterOperation
 from app.enums.statuses import STATUS_BATCH
-# from schemas.batch_cotizations import one_plan
-# from datetime import datetime
-# from weasyprint import HTML
-# from uuid import uuid4
-
-async def get_cotization(id: int):
-    # batch_res = await get_batch(id)
-    # batch = batch_res['data']
-
-    # if batch['status']['id'] != STATUS_BATCH.AVAILABLE.value:
-    #     raise HTTPException(status_code=404, detail="Batch not found")
-    
-    # html = one_plan.html.format(
-    #     image=batch['assets'][0]['url'],
-    #     date=datetime.now().strftime("%d/%m/%Y")
-    # )
-
-    # uuid = str(uuid4())
-
-    # with open(f'public/{uuid}.html', 'w') as f:
-    #     f.write(html)
-
-    # html = HTML(f'public/{uuid}.html')
-    # html.write_pdf(f'public/{uuid}.pdf')
-
-    # return {
-    #     'path': f'public/{uuid}.pdf'
-    # }
-    pass
-    
 
 async def get_batches():
     batches = colina_db.fetch_all(
@@ -146,18 +116,24 @@ async def get_batch(id: int):
         raise HTTPException(status_code=404, detail="Batch not found")
     
     batch['assets'] = colina_db.fetch_all(
-            sql="SELECT * FROM batch_assets WHERE batch_id = %s",
-            params=(batch['id'],)
-        )
+        sql="SELECT * FROM batch_assets WHERE batch_id = %s",
+        params=(batch['id'],)
+    )
 
     batch['payment_plans'] = colina_db.fetch_all(
-        sql="SELECT * FROM batch_payment_plans WHERE batch_id = %s",
+        sql="SELECT * FROM payment_plans WHERE id IN (SELECT payment_plan_id FROM batch_payment_plans WHERE batch_id = %s)",
         params=(batch['id'],)
     )
 
     batch['status'] = colina_db.select_one(
         table='batch_status',
         where={'id': batch['status']},
+        columns=['*']
+    )
+
+    batch['type'] = colina_db.select_one(
+        table='batch_types',
+        where={'id': batch['type']},
         columns=['*']
     )
 

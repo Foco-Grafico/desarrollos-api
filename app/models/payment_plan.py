@@ -7,3 +7,4 @@ class PaymentPlan(BaseModel):
     pay_per_month: float
     interest_rate: float
     payment_method: str
+    down_payment: float
