@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from enum import Enum
 
+
+
 class Interactive(BaseModel):
     id: str
     title: str
@@ -70,6 +72,37 @@ class Header():
 
             if self.text:
                 body[self.type.value]['caption'] = self.text # type: ignore
+
+        return body
+    
+class Contact():
+    def __init__(
+        self,
+        name: str,
+        phone: str
+    ) -> None:
+        self.name = name
+        self.phone = phone
+        pass
+
+    def get(self, to: str):
+        body = {
+            'to': to,
+            "type": "contacts",
+            'messaging_product': 'whatsapp',
+            "contacts": [{
+                "name": {
+                    "formatted_name": self.name,
+                    "first_name": self.name,
+                    "last_name": self.name,
+                    "middle_name": self.name,
+                },
+                "phones": [{
+                    "phone": self.phone,
+                    "type": "mobile"
+                }]
+            }]
+        }
 
         return body
 

@@ -26,7 +26,27 @@ colina_db = DB(
     user=Env.get_secure('USER_DB')
 )
 
+seller_data = [
+    {
+        'name': 'Enrique',
+        'last_name': 'De alba',
+        'email': 'jedealbagaytan@gmail.com',
+        'phone': '5216693171220',
+        'enterprise': 'Deluxe'
+    },
+    {
+        'name': 'Hugo',
+        'last_name': 'Gei',
+        'email': 'aaaaaaa',
+        'phone': '5216691006732',
+        'enterprise': 'Deluxe'
+    }
+]
+
+colina_db.insert_many(table='sellers', data=seller_data)
+
 def create_devs(num_devs: int):
+    sellers = colina_db.select(table='sellers', columns=['id'])
     for i in range(num_devs):
         dev_data = {
             'name': f'Desarrollo {i+1}',
@@ -44,7 +64,13 @@ def create_devs(num_devs: int):
         }
         print(f'Creating development {i+1}...')
 
-        colina_db.insert(table='developments', data=dev_data)
+        id = colina_db.insert(table='developments', data=dev_data)
+
+        for seller in sellers:
+            colina_db.insert(table='developments_sellers', data={
+                'development_id': id,
+                'seller_id': seller['id']
+            })
 
 def create_batches(num_batch_per_dev: int):
     devs = colina_db.select(table='developments', columns=['id'])

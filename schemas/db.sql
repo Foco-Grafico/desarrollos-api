@@ -197,3 +197,17 @@ CREATE TABLE batch_payment_plans (
     CONSTRAINT fk_batch_payment_payment FOREIGN KEY (payment_plan_id) REFERENCES payment_plans (id) ON DELETE CASCADE,
     UNIQUE KEY batch_payment (batch_id, payment_plan_id)
 );
+
+CREATE TABLE batch_sellers (
+    id INT NOT NULL AUTO_INCREMENT,
+    batch_id INT NOT NULL,
+    seller_id INT NOT NULL,
+    client_phone VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL DEFAULT 'pending',
+    client_name VARCHAR(255) NOT NULL,
+    client_email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY batch_seller (batch_id, seller_id),
+    CONSTRAINT fk_batch_seller_batch FOREIGN KEY (batch_id) REFERENCES batches (id) ON DELETE CASCADE,
+    CONSTRAINT fk_batch_seller_seller FOREIGN KEY (seller_id) REFERENCES sellers (id) ON DELETE CASCADE
+);
