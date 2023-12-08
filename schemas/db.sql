@@ -107,6 +107,16 @@ CREATE TABLE developments (
     CONSTRAINT fk_dev_slug UNIQUE KEY (slug)
 );
 
+CREATE TABLE developments_sellers (
+    id INT NOT NULL AUTO_INCREMENT,
+    development_id INT NOT NULL,
+    seller_id INT NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY dev_seller (development_id, seller_id),
+    CONSTRAINT fk_dev_seller_dev FOREIGN KEY (development_id) REFERENCES developments (id) ON DELETE CASCADE,
+    CONSTRAINT fk_dev_seller_seller FOREIGN KEY (seller_id) REFERENCES sellers (id) ON DELETE CASCADE
+);
+
 CREATE TABLE payment_plans (
     id INT NOT NULL AUTO_INCREMENT,
     months_to_pay INT NOT NULL,
