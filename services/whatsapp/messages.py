@@ -5,6 +5,7 @@ from services.db import colina_db
 from app.utils.intervals import setTimeout, setInterval
 from random import randint
 import re
+from app.enums.statuses import STATUS_BATCH
 
 def format_message(msg) -> Msg | None:
     try:
@@ -118,17 +119,17 @@ def receive_message(u_msg):
 
                 send_controller('Te hemos asignado un vendedor, se contactara contigo en unos instantes\n pdf: {pdf_formatted}', client_phone)
 
-                setTimeout(60, lambda: send_controller(
+                setTimeout(60, lambda interval: send_controller(
                     to=client_phone,
                     message=Buttons(
                         body=f'¿Te ha contactado el vendedor?',
                         buttons=[
                             Button(
-                                execute=f'is_contact batch"{batch_id}" client_n"{client_name}" seller_id"{seller["id"]}',
+                                execute=f'is_contact si batch"{batch_id}" client_n"{client_name}" seller_id"{seller["id"]}"',
                                 title='Si'
                             ),
                             Button(
-                                execute=f'is_contact batch"{batch_id}" client_n"{client_name}"',
+                                execute=f'is_contact no batch"{batch_id}" client_n"{client_name}" seller_id"{seller["id"]}"',
                                 title='No'
                             )
                         ]
@@ -307,6 +308,27 @@ def receive_message(u_msg):
                         ],
                         button='Calificar'
                     )
+                )
+        
+        if name == 'block':
+            match = re.search(r'seller_id"(\d+)" batch"(\d+)" client_n"(.+?)"', msg.message.id)
+
+            if match:
+                seller_id = match.group(1)
+                batch_id = match.group(2)
+                client_name = match.group(3)
+
+                colina_db.update(
+                    table='batches',
+                    data={
+                        'status': STATUS_BATCH.RESERVED.value
+                    },
+                    where=f'id = {batch_id}'
+                )
+
+                send_controller(
+                    to=msg.user.number,
+                    message=f'Has bloqueado el lote {batch_id}, para cualquier confusion, llame a un moderador.'
                 )
 
 

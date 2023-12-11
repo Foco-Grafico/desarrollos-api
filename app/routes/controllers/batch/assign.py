@@ -8,13 +8,21 @@ from services.whatsapp.controller.send import send_controller as send_whatsapp
 from services.whatsapp.models.wa_models import Buttons, Button
 from app.utils.intervals import setInterval
 
-async def assign_batch_random_seller(token: str, batch_id: int, dev_id: int, client_phone: str, client_name: str, mail: str):
+async def assign_batch_random_seller(token: str, batch_id: int, client_phone: str, client_name: str, mail: str):
     if not is_have_perm(token, BATCH.MODIFY.value):
         raise HTTPException(status_code=403, detail="You don't have permission to create batches")
     
+    batch = colina_db.select_one(
+        table='batches',
+        columns=['development_id'],
+        where={
+            'id': batch_id
+        }
+    )
+
     sellers = colina_db.fetch_all(
         sql='SELECT * FROM sellers WHERE id IN (SELECT seller_id FROM developments_sellers WHERE development_id = %s)',
-        params=(dev_id,)
+        params=(batch['development_id'],)
     )
 
     if not sellers:

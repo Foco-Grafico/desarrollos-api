@@ -205,7 +205,7 @@ CREATE TABLE batch_sellers (
     client_phone VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'pending',
     client_name VARCHAR(255) NOT NULL,
-    client_email VARCHAR(255) NOT NULL,
+    client_mail VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY batch_seller (batch_id, seller_id),
     CONSTRAINT fk_batch_seller_batch FOREIGN KEY (batch_id) REFERENCES batches (id) ON DELETE CASCADE,
