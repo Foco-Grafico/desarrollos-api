@@ -61,8 +61,8 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max:
         params=(development_id, STATUS_BATCH.AVAILABLE.value, elements, (page - 1) * elements)
     )
 
-    if not batch_db:
-        raise HTTPException(status_code=404, detail="Batch not found")
+    # if not batch_db:
+    #     raise HTTPException(status_code=404, detail="Batch not found")
 
     for batch in batch_db:
         batch['assets'] = colina_db.fetch_all(

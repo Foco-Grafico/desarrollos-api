@@ -27,7 +27,7 @@ async def modify_dev(
 
 
     logo_url = development_db['logo_url']
-    if dev.logo is not None:
+    if dev.logo:
         if not is_image(dev.logo):
             raise HTTPException(status_code=400, detail="Logo must be an image")
 
@@ -52,6 +52,9 @@ async def modify_dev(
                 'contact_number': dev.contact_number if dev.contact_number is not None else development_db['contact_number'],
                 'contact_email': dev.contact_email if dev.contact_email is not None else development_db['contact_email'],
                 'status': status.value if status is not None else development_db['status'],
+                'max_blocks': dev.max_blocks if dev.max_blocks is not None else development_db['max_blocks'],
+                'slug': dev.slug if dev.slug is not None else development_db['slug'],
+                'view_url': dev.view_url if dev.view_url is not None else development_db['view_url'],
             },
 
         )

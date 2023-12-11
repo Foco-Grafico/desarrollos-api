@@ -57,6 +57,9 @@ class EditDevelopment(BaseModel):
     logo: UploadFile | None = None
     contact_number: str | None = None
     contact_email: str | None = None
+    max_blocks: int | None = None
+    slug: str | None = None
+    view_url: str | None = None
 
     @classmethod
     def as_form(
@@ -69,7 +72,10 @@ class EditDevelopment(BaseModel):
         country: Annotated[str | None, Form(...)] = None,
         logo: UploadFile | None = None,
         contact_number: Annotated[str | None, Form(...)] = None,
-        contact_email: Annotated[str | None, Form(...)] = None
+        contact_email: Annotated[str | None, Form(...)] = None,
+        max_blocks: Annotated[int | None, Form(...)] = None,
+        slug: Annotated[str | None, Form(...)] = None,
+        view_url: Annotated[str | None, Form(...)] = None
     ):
         return cls(
             name=name,
@@ -80,5 +86,8 @@ class EditDevelopment(BaseModel):
             country=country,
             logo=logo,
             contact_number=contact_number,
-            contact_email=contact_email
+            contact_email=contact_email,
+            max_blocks=max_blocks,
+            slug=slug,
+            view_url=view_url
         )
