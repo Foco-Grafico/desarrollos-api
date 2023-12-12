@@ -117,7 +117,7 @@ def receive_message(u_msg):
                     message=f'Se te ha asignado un nuevo cliente: {client.name} - {client.phone}\n.En aproximadamente un minuto podras interactuar con el apartado del lote.\npdf: {pdf_formatted}'
                 )
 
-                send_controller('Te hemos asignado un vendedor, se contactara contigo en unos instantes\n pdf: {pdf_formatted}', client_phone)
+                send_controller(f'Te hemos asignado un vendedor, se contactara contigo en unos instantes\n pdf: {pdf_formatted}', client_phone)
 
                 setTimeout(60, lambda interval: send_controller(
                     to=client_phone,
@@ -195,7 +195,7 @@ def receive_message(u_msg):
                             'status': 'pending',
                             'seller_id': random_seller['id']
                         },
-                        where=f'batch_id = {batch_id} AND client_name = {client_name}'
+                        where=f'batch_id = "{batch_id}" AND client_name = "{client_name}"'
                     )
 
                     def action(inter: setInterval):

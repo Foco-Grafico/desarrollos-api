@@ -21,8 +21,6 @@ app = App(
     ]
 ).get_app()
 
-
-
 sio = socketio.Client()
 sio.connect(Env.get_secure('WA_SOCKET'))
 sio_app = socketio.ASGIApp(sio)
