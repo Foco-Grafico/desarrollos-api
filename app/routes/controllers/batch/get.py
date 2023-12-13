@@ -31,7 +31,7 @@ async def get_batches():
         'data': batches
     }
 
-async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max: bool = False, elements: int = 50, page: int = 1):
+async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max: bool = False, elements: int = 50, page: int = 1, only_max_pages: bool = False):
     dev_db = colina_db.fetch_one(
         sql="SELECT id FROM developments WHERE id = %s",
         params=(development_id,)
@@ -64,6 +64,15 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max:
     # if not batch_db:
     #     raise HTTPException(status_code=404, detail="Batch not found")
 
+    if only_max_pages:
+        return {
+            'max_pages': math.ceil(colina_db.fetch_one(
+                sql=u"SELECT count(*) as counter FROM batches WHERE development_id = %s AND status = %s {filters_formatted}".format(filters_formatted=filters_sql),
+                params=(development_id, STATUS_BATCH.AVAILABLE.value)
+            )['counter'] / elements),
+            'data': []
+        }
+    
     for batch in batch_db:
         batch['assets'] = colina_db.fetch_all(
             sql="SELECT * FROM batch_assets WHERE batch_id = %s",
