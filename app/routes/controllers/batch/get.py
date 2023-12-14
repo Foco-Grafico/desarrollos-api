@@ -31,7 +31,7 @@ async def get_batches():
         'data': batches
     }
 
-async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max: bool = False, elements: int = 50, page: int = 1, only_max_pages: bool = False):
+async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max: bool = False, elements: int = 50, page: int = 1, only_max_pages: bool = False, all: bool = False):
     dev_db = colina_db.fetch_one(
         sql="SELECT id FROM developments WHERE id = %s",
         params=(development_id,)
@@ -40,7 +40,7 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max:
     if not dev_db:
         raise HTTPException(status_code=404, detail="Development not found")
 
-    sql_batches = u"SELECT b.*, UUID() as `key` FROM batches b WHERE development_id = %s AND status = %s {filters_formatted} LIMIT %s OFFSET %s"
+    sql_batches = u"SELECT b.*, UUID() as `key` FROM batches b WHERE development_id = %s AND status = %s {filters_formatted} LIMIT %s OFFSET %s" if not all else u"SELECT b.*, UUID() as `key` FROM batches b WHERE development_id = %s {filters_formatted} LIMIT %s OFFSET %s"
 
     filters_sql = ''
 
@@ -59,6 +59,9 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max:
     batch_db = colina_db.fetch_all(
         sql=sql_batches,
         params=(development_id, STATUS_BATCH.AVAILABLE.value, elements, (page - 1) * elements)
+    ) if not all else colina_db.fetch_all(
+        sql=sql_batches,
+        params=(development_id, elements, (page - 1) * elements)
     )
 
     # if not batch_db:
@@ -90,6 +93,12 @@ async def get_batch_in_dev(filters: FilterBatch, development_id:int, min_to_max:
             columns=['*']
         )
 
+        batch['type'] = colina_db.select_one(
+            table='batch_types',
+            where={'id': batch['type']},
+            columns=['*']
+        )
+
     if min_to_max:
         batch_db = sorted(batch_db, key=lambda batch: batch['price'])
 
@@ -112,6 +121,17 @@ async def get_batches_types():
     return {
         'message': 'Batch types found successfully',
         'data': types
+    }
+
+async def get_batches_status():
+    status = colina_db.select(
+        table = 'batch_status',
+        columns=['*', 'UUID() as `key`']
+    )
+
+    return {
+        'message': 'Batch status found successfully',
+        'data': status
     }
 
 async def get_batch(id: int):

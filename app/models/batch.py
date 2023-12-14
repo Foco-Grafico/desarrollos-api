@@ -107,7 +107,7 @@ class EditBatch(BaseModel):
         sides: Annotated[int | None, Form(...)] = None,
         block: Annotated[int | None, Form(...)] = None,
         number_of_batch: Annotated[int | None, Form(...)] = None,
-        type: Annotated[int | None, Form(...)] = None
+        type: Annotated[int | None, Form(...)] = None,
     ):
         return cls(
             area=area,
@@ -123,5 +123,5 @@ class EditBatch(BaseModel):
             sides=sides,
             block=block,
             number_of_batch=number_of_batch,
-            type=type
+            type=type,
         )

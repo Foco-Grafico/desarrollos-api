@@ -3,7 +3,9 @@ from fastapi import HTTPException, Depends, UploadFile
 from app.utils import auth, perms, files
 from app.enums.permissions import BATCH
 from app.models.batch import EditBatch
+from app.utils.files import save_file_on_api, is_image
 from app.enums.statuses import STATUS_BATCH
+from app.routes.controllers.batch.assign import assign_batch_asset
 
 async def modify_batch_asset(token: str, asset_id: int, file: UploadFile):
     perm = perms.get_perm_id(BATCH.MODIFY.value)
@@ -43,10 +45,55 @@ async def modify_batch_asset(token: str, asset_id: int, file: UploadFile):
         'message': 'Asset updated successfully'
     }
 
+async def modify_batch_assets(token: str, batch_id: int, assets: list[UploadFile]):
+    perm = perms.get_perm_id(BATCH.MODIFY.value)
+    if not auth.verify_perm(token, perm):
+        raise HTTPException(status_code=403, detail='You do not have permission to perform this action.')
+
+    batch_db = colina_db.fetch_one(
+        sql='SELECT * FROM batches WHERE id = %s',
+        params=(batch_id,)
+    )
+
+    if not batch_db:
+        raise HTTPException(status_code=404, detail="Batch not found")
+    
+    try:
+        colina_db.execute(
+            sql='DELETE FROM batch_assets WHERE batch_id = %s',
+            params=(batch_id,)
+        )
+
+        for file in assets:
+            if not is_image(file):
+                raise HTTPException(status_code=400, detail="Assets must be images")
+            
+            file_url = save_file_on_api(
+                file=file,
+                path='public/batches'
+            )
+
+            try:
+                await assign_batch_asset(
+                    token=token,
+                    asset_url=file_url,
+                    batch_id=batch_id
+                )
+
+            except Exception as e:
+                print(e)
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail='Batch could not be updated')
+    return {
+        'message': 'Batch updated successfully.'
+    }
+
 async def modify_batch(
     token: str,
     batch_id: int,
-    status: STATUS_BATCH | None = None,
+    status: int | None = None,
     batch: EditBatch = Depends(EditBatch.as_form)
 ):
     perm = perms.get_perm_id(BATCH.MODIFY.value)
@@ -72,7 +119,7 @@ async def modify_batch(
                 'amenities': batch.amenities if batch.amenities is not None else batch_db['amenities'],
                 'price': batch.price if batch.price is not None else batch_db['price'],
                 'development_id': batch.development_id if batch.development_id is not None else batch_db['development_id'],
-                'status': status.value if status is not None else batch_db['status'],
+                'status': status if status is not None else batch_db['status'],
                 'currency': batch.currency if batch.currency is not None else batch_db['currency'],
                 'location': batch.location if batch.location is not None else batch_db['location'],
                 'sq_m': batch.sq_m if batch.sq_m is not None else batch_db['sq_m'],
@@ -82,6 +129,31 @@ async def modify_batch(
                 'type': batch.type if batch.type is not None else batch_db['type']
             },
         )
+
+        # if batch.assets:
+        #     colina_db.execute(
+        #         sql='DELETE FROM batch_assets WHERE batch_id = %s',
+        #     )
+
+        #     for file in batch.assets:
+        #         if not is_image(file):
+        #             raise HTTPException(status_code=400, detail="Assets must be images")
+                
+        #         file_url = save_file_on_api(
+        #             file=file,
+        #             path='public/batches'
+        #         )
+
+        #         try:
+        #             await assign_batch_asset(
+        #                 token=token,
+        #                 asset_url=file_url,
+        #                 batch_id=batch_id
+        #             )
+
+        #         except Exception as e:
+        #             print(e)
+
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='Batch could not be updated')

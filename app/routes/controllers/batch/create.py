@@ -7,7 +7,7 @@ from app.utils.files import save_file_on_api, is_image
 from app.routes.controllers.batch.assign import assign_batch_asset
 from app.enums.statuses import STATUS_BATCH
 
-async def batch(token: str, status: STATUS_BATCH | None = None, batch: CreateBatch = Depends(CreateBatch.as_form)):
+async def batch(token: str, status: int | None = None, batch: CreateBatch = Depends(CreateBatch.as_form)):
     if not is_have_perm(token, BATCH.CREATE.value):
         raise HTTPException(status_code=403, detail="You don't have permission to create batches")
 
@@ -33,7 +33,7 @@ async def batch(token: str, status: STATUS_BATCH | None = None, batch: CreateBat
                 'currency': batch.currency,
                 'location': batch.location,
                 'sq_m': batch.sq_m,
-                'status': status.value if status is not None else STATUS_BATCH.AVAILABLE.value,
+                'status': status if status is not None else STATUS_BATCH.AVAILABLE.value,
                 'sides': batch.sides,
                 'block': batch.block,
                 'number_of_batch': batch.number_of_batch,

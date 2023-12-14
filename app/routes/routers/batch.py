@@ -6,6 +6,7 @@ router = APIRouter(
     tags=['batch']
 )
 
+router.get('/status')(get.get_batches_status)
 router.post('')(create.batch)
 router.delete('')(delete.batch)
 router.post('/assign/asset')(assign.assign_batch_asset)
@@ -18,4 +19,5 @@ router.post('/{development_id}')(get.get_batch_in_dev)
 router.get('/types')(get.get_batches_types)
 router.get('/{id}')(get.get_batch)
 router.post('/assign/seller')(assign.assign_batch_random_seller)
+router.put('/{batch_id}/assets')(modify.modify_batch_assets)
 

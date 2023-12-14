@@ -21,3 +21,17 @@ async def get_sellers_in_dev(dev: int):
         'message': 'Sellers found',
         'data': sellers
     }
+
+async def get_seller(id: int):
+    seller = colina_db.select_one(
+        table='sellers',
+        columns=['*', 'UUID() as `key`'],
+        where={
+            'id': id
+        }
+    )
+
+    return {
+        'message': 'Seller found',
+        'data': seller
+    }
